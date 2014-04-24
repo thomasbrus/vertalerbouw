@@ -1,0 +1,60 @@
+let
+  type Line ~ record
+    length: Integer,
+    content: array 200 of Char
+  end;
+
+  var currentLine: Line;
+  var characterCount: Integer;
+  var wordCount: Integer;
+  var lineCount: Integer;
+
+  proc getLine(var line: Line) ~
+    let
+      var character: Char
+    in begin
+      line.length := 0;
+      get(var character);
+
+      while \ eol() /\ \ eof() do begin
+        line.content[line.length] := character;
+        line.length := line.length + 1;
+        get(var character);
+      end;
+    end;
+
+  proc updateWordCount(l: Line, var wordCount: Integer) ~
+    let
+      var i: Integer
+    in begin
+      i := 0;
+
+      while i < l.length  do begin
+        if (l.content[i] = ' ') /\ (l.content[i + 1] \= ' ') then
+          wordCount := wordCount + 1
+        else;
+        i := i + 1;
+      end;
+
+      if wordCount > 0 then wordCount := wordCount + 1 else
+    end
+
+in begin
+  characterCount := 0;
+  wordCount := 0;
+  lineCount := 0;
+
+  while (\ eof()) do begin
+    getLine(var currentLine);
+    characterCount := characterCount + currentLine.length + 1;
+    updateWordCount(currentLine, var wordCount);
+    lineCount := lineCount + 1;
+  end;
+
+  wordCount := wordCount - 1;
+  characterCount := characterCount - 1;
+
+  put('#'); put('C'); put(':'); put(' '); putint(characterCount); put(' ');
+  put('#'); put('W'); put(':'); put(' '); putint(wordCount); put(' ');
+  put('#'); put('L'); put(':'); put(' '); putint(lineCount)
+end

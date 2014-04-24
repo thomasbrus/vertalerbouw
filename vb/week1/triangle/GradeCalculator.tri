@@ -1,0 +1,43 @@
+let
+  var labGrade: Integer;
+  var assignmentGrade: Integer;
+  var firstAssignmentGrade: Integer;
+  var secondAssignmentGrade: Integer;
+  var totalAverage: Integer
+in
+  begin
+    put('P'); put ('l'); put ('e'); put('s'); put('e'); put(' ');
+    put('e'); put('n'); put('t'); put('e'); put('r'); put(' ');
+    put('y'); put('o'); put('u'); put('r'); put(' ');
+    put('l'); put('a'); put('b'); put(' ');
+    put('g'); put('r'); put('a'); put('d'); put('e'); put(':'); put(' ');
+
+    getint(var labGrade);
+
+    put('P'); put ('l'); put ('e'); put('s'); put('e'); put(' ');
+    put('e'); put('n'); put('t'); put('e'); put('r'); put(' ');
+    put('y'); put('o'); put('u'); put('r'); put(' ');
+    put('f'); put('i'); put('r'); put('s'); put('t'); put(' ');
+    put('a'); put('s'); put('i'); put('g'); put('n'); put('m'); put('e'); put('n'); put('t'); put(' ');
+    put('g'); put('r'); put('a'); put('d'); put('e'); put(':'); put(' ');
+
+    getint(var firstAssignmentGrade);
+
+    put('P'); put ('l'); put ('e'); put('s'); put('e'); put(' ');
+    put('e'); put('n'); put('t'); put('e'); put('r'); put(' ');
+    put('y'); put('o'); put('u'); put('r'); put(' ');
+    put('s'); put('e'); put('c'); put('o'); put('n'); put('d'); put(' ');
+    put('a'); put('s'); put('i'); put('g'); put('n'); put('m'); put('e'); put('n'); put('t'); put(' ');
+    put('g'); put('r'); put('a'); put('d'); put('e'); put(':'); put(' ');
+
+    getint(var secondAssignmentGrade);
+
+    assignmentGrade := (firstAssignmentGrade + secondAssignmentGrade) / 2;
+
+    totalAverage := (assignmentGrade + labGrade) / 2;
+
+    if (((labGrade >= 50) /\ (assignmentGrade >= 50)) \/ (totalAverage <= 40)) then
+      putint(totalAverage)
+    else
+      putint(40)
+  end
