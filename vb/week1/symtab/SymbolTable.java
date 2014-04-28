@@ -30,7 +30,14 @@ public class SymbolTable<Entry extends IdEntry> {
    * @ensures  this.currentLevel() == old.currentLevel()-1;
    */
   public void closeScope() {
-    // TODO: Remove all identifiers from current scope ...
+    for (List<Entry> entries : this.table.values()) {
+      for (Entry entry : entries) {
+        if (entry.getLevel() == this.currentLevel()) {
+          entries.remove(entry);
+        }
+      }
+    }
+
     this.currentLevel -= 1;
   }
 
