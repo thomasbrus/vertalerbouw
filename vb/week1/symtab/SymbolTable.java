@@ -1,7 +1,10 @@
 package vb.week1.symtab;
 
+import java.util.HashMap;
+
 public class SymbolTable<Entry extends IdEntry> {
   private Integer currentLevel;
+  private HashMap<String, Entry> table;
 
   /**
    * Constructor.
@@ -9,6 +12,7 @@ public class SymbolTable<Entry extends IdEntry> {
    */
   public SymbolTable() {
     this.currentLevel = -1;
+    this.table = new HashMap<String, Entry>();
   }
 
   /**
@@ -45,7 +49,11 @@ public class SymbolTable<Entry extends IdEntry> {
    *    on the current level.
    */
   public void enter(String id, Entry entry) throws SymbolTableException {
+    if (this.currentLevel() < 0) { throw new SymbolTableException("Invalid current scope level."); }
+    if (this.table.containsKey(id)) { throw new SymbolTableException("Id already declared on current level."); }
 
+    entry.setLevel(this.currentLevel());
+    this.table.put(id, entry);
   }
 
   /**
@@ -55,7 +63,14 @@ public class SymbolTable<Entry extends IdEntry> {
    *          null if this SymbolTable does not contain id
    */
   public Entry retrieve(String id) {
-    return null; // body nog toe te voegen
+    int level = this.currentLevel();
+
+    while (level >= 0) {
+      if (this.table.containsKey(id)) { return this.table.get(id); }
+      level--;
+    }
+
+    return null;
   }
 }
 
