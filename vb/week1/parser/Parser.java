@@ -1,4 +1,4 @@
-package vb.week1.symtab;
+package vb.week1.parser;
 
 import java.io.*;
 
@@ -60,11 +60,11 @@ public class Parser {
     	String rest = parseId(input.substring(2));
     	String id = input.substring(2, input.length() - rest.length());
     	try {
-			table.enter(id, new IdEntry());
-		} catch (SymbolTableException e) {
-			System.err.println(e);
-		}
-    	System.out.println("D:"+id + " on level "+table.currentLevel());
+        table.enter(id, new IdEntry());
+  		} catch (SymbolTableException e) {
+  		  System.err.println(e);
+  		}
+    	System.out.println("D:" + id + " on level " + table.currentLevel());
     	return parseId(rest);
     }
     return null;
@@ -75,10 +75,12 @@ public class Parser {
     	String rest = parseId(input.substring(2));
     	String id = input.substring(2, input.length() - rest.length());
     	IdEntry currentEntry = table.retrieve(id);    	
-		System.out.print("D:"+id + " on level "+table.currentLevel()+", ");
-		if(currentEntry != null){ System.out.println("declared on level "+currentEntry.getLevel()); } else {
-			System.out.println("*undeclared*");
-		}    	
+		  System.out.print("D:" + id + " on level " + table.currentLevel() + ", ");
+  		if(currentEntry != null){ 
+        System.out.println("declared on level " + currentEntry.getLevel()); 
+      } else {
+  			System.out.println("*undeclared*");
+  		}    	
     	return parseId(rest);
     }
     return null;

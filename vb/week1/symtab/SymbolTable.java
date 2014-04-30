@@ -57,9 +57,10 @@ public class SymbolTable<Entry extends IdEntry> {
     	if(this.currentLevel < 0){ throw new SymbolTableException("No scope found"); }    	
     	Entry def = retrieve(id);
     	if(def != null && def.getLevel() == this.currentLevel){ 
-    		throw new SymbolTableException(id+"' already declared on current level"); }    	
+    	   throw new SymbolTableException(id+"' already declared on current level"); 
+        }    	
     	if(def == null){
-    		this.entryMap.put(id, new Stack<Entry>());    	
+    	   this.entryMap.put(id, new Stack<Entry>());    	
     	}
     	entry.setLevel(this.currentLevel);
     	this.entryMap.get(id).push(entry);
