@@ -7,7 +7,7 @@ public class Parser {
   public Parser(){
     table = new SymbolTable();
   }
-	
+  
   public Boolean isValid(String input) {
     String rest = parseDecluse(input);
     return (rest != null && rest.trim().isEmpty());
@@ -25,16 +25,16 @@ public class Parser {
 
   public String parseOpen(String input) {
     if (input.charAt(0) == '('){
-    	table.openScope();
-    	return input.substring(1);
+      table.openScope();
+      return input.substring(1);
     }
     return null;
   }
 
   public String parseClose(String input) {
     if (input.charAt(0) == ')'){
-    	table.closeScope();
-    	return input.substring(1);
+      table.closeScope();
+      return input.substring(1);
     }
     return null;
   }
@@ -57,31 +57,31 @@ public class Parser {
 
   public String parseDecl(String input) {
     if (input.startsWith("D:")){
-    	String rest = parseId(input.substring(2));
-    	String id = input.substring(2, input.length() - rest.length());
-    	try {
+      String rest = parseId(input.substring(2));
+      String id = input.substring(2, input.length() - rest.length());
+      try {
         table.enter(id, new IdEntry());
-  		} catch (SymbolTableException e) {
-  		  System.err.println(e);
-  		}
-    	System.out.println("D:" + id + " on level " + table.currentLevel());
-    	return parseId(rest);
+      } catch (SymbolTableException e) {
+        System.err.println(e);
+      }
+      System.out.println("D:" + id + " on level " + table.currentLevel());
+      return parseId(rest);
     }
     return null;
   }
 
   public String parseUse(String input) {
     if (input.startsWith("U:")){
-    	String rest = parseId(input.substring(2));
-    	String id = input.substring(2, input.length() - rest.length());
-    	IdEntry currentEntry = table.retrieve(id);    	
-		  System.out.print("D:" + id + " on level " + table.currentLevel() + ", ");
-  		if(currentEntry != null){ 
+      String rest = parseId(input.substring(2));
+      String id = input.substring(2, input.length() - rest.length());
+      IdEntry currentEntry = table.retrieve(id);      
+      System.out.print("D:" + id + " on level " + table.currentLevel() + ", ");
+      if(currentEntry != null){ 
         System.out.println("declared on level " + currentEntry.getLevel()); 
       } else {
-  			System.out.println("*undeclared*");
-  		}    	
-    	return parseId(rest);
+        System.out.println("*undeclared*");
+      }      
+      return parseId(rest);
     }
     return null;
   }

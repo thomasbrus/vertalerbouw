@@ -2,16 +2,16 @@ package vb.week1.symtab;
 import java.util.*;
 
 public class SymbolTable<Entry extends IdEntry> {
-	
-	private int currentLevel;	
-	private Map<String,Stack<Entry>> entryMap;
+  
+    private int currentLevel;  
+    private Map<String,Stack<Entry>> entryMap;
     /**
      * Constructor.
      * @ensures  this.currentLevel() == -1
      */
     public SymbolTable() {
-        this.currentLevel = -1;
-        this.entryMap = new HashMap<String,Stack<Entry>>();
+      this.currentLevel = -1;
+      this.entryMap = new HashMap<String,Stack<Entry>>();
     }
 
     /**
@@ -29,13 +29,13 @@ public class SymbolTable<Entry extends IdEntry> {
      * @ensures  this.currentLevel() == old.currentLevel()-1;
      */
     public void closeScope() {
-    	for(Map.Entry<String,Stack<Entry>> k : this.entryMap.entrySet()){
-    		Stack<Entry> e = k.getValue();
-    		if(e.size() > 0 && e.peek().getLevel() == this.currentLevel){ 
-    			e.pop();
-    		}
-    	}
-    	this.currentLevel--;
+      for(Map.Entry<String,Stack<Entry>> k : this.entryMap.entrySet()){
+        Stack<Entry> e = k.getValue();
+        if(e.size() > 0 && e.peek().getLevel() == this.currentLevel){ 
+          e.pop();
+        }
+      }
+      this.currentLevel--;
     }
 
     /** Returns the current scope level. */
@@ -54,16 +54,16 @@ public class SymbolTable<Entry extends IdEntry> {
      *    on the current level.
      */
     public void enter(String id, Entry entry) throws SymbolTableException {
-    	if(this.currentLevel < 0){ throw new SymbolTableException("No scope found"); }    	
-    	Entry def = retrieve(id);
-    	if(def != null && def.getLevel() == this.currentLevel){ 
-    	   throw new SymbolTableException(id+"' already declared on current level"); 
-        }    	
-    	if(def == null){
-    	   this.entryMap.put(id, new Stack<Entry>());    	
-    	}
-    	entry.setLevel(this.currentLevel);
-    	this.entryMap.get(id).push(entry);
+      if(this.currentLevel < 0){ throw new SymbolTableException("No scope found"); }      
+      Entry def = retrieve(id);
+      if(def != null && def.getLevel() == this.currentLevel){ 
+         throw new SymbolTableException(id+"' already declared on current level"); 
+        }      
+      if(def == null){
+         this.entryMap.put(id, new Stack<Entry>());      
+      }
+      entry.setLevel(this.currentLevel);
+      this.entryMap.get(id).push(entry);
     }
 
     /**
