@@ -22,7 +22,7 @@ public class Parser {
     if(currentToken.getKind().equals(kind)){
       this.currentToken = scanner.scan();
     } else {
-      throw new SyntaxError("Unexpected token "+currentToken.getKind() + " while expecting " + kind);
+      throw new SyntaxError("Unexpected token " + currentToken.getKind() + " while expecting " + kind);
     }
   }
   
@@ -38,6 +38,7 @@ public class Parser {
     nextChar(Token.Kind.IDENTIFIER);
     nextChar(Token.Kind.RCURLY);
   }
+
   protected void parseRows() throws SyntaxError{
     if(currentToken.getKind().equals(Token.Kind.RCURLY)) return;  
     while(currentToken.getKind().equals(Token.Kind.NUM) || currentToken.getKind().equals(Token.Kind.IDENTIFIER) || currentToken.getKind().equals(Token.Kind.AMPERSAND)){
@@ -45,6 +46,7 @@ public class Parser {
       nextChar(Token.Kind.DOUBLE_BSLASH);
     }
   }
+
   protected void parseEntries() throws SyntaxError {
     parseEntry();
     while(currentToken.getKind().equals(Token.Kind.AMPERSAND)){
@@ -52,6 +54,7 @@ public class Parser {
       parseEntry();
     }
   }
+
   protected void parseEntry() throws SyntaxError {
     if (currentToken.getKind().equals(Token.Kind.NUM)){
       nextChar();
@@ -60,9 +63,10 @@ public class Parser {
       nextChar();
     } else
     if(!currentToken.getKind().equals(Token.Kind.AMPERSAND) && !currentToken.getKind().equals(Token.Kind.DOUBLE_BSLASH)){
-    	throw new SyntaxError("Unexpected token "+currentToken.getKind() + " while expecting Entry");
+    	throw new SyntaxError("Unexpected token " + currentToken.getKind() + " while expecting Entry");
     }
   }
+
   protected void parseBeginTabular() throws SyntaxError {
     nextChar(Token.Kind.BSLASH);
     nextChar(Token.Kind.BEGIN);
@@ -70,6 +74,7 @@ public class Parser {
     nextChar(Token.Kind.TABULAR);
     nextChar(Token.Kind.RCURLY);
   }
+
   protected void parseEndTabular() throws SyntaxError {
     nextChar(Token.Kind.BSLASH);
     nextChar(Token.Kind.END);
@@ -87,7 +92,7 @@ public class Parser {
       nextChar();
       parseLatexTabular();
       if(currentToken.getKind() != Token.Kind.EOT)
-        new SyntaxError("Unexpected token "+currentToken.getKind() + " while expecting " + Token.Kind.EOT);
+        new SyntaxError("Unexpected token " + currentToken.getKind() + " while expecting " + Token.Kind.EOT);
     } catch (SyntaxError e) {
       System.err.println(e);
       return false;
@@ -100,6 +105,8 @@ public class Parser {
     Parser p = new Parser(s);
     if(p.parse()){
       System.out.println("Successfully parsed.");
+    } else {
+      System.out.println("An error occured while parsing.")
     }
     
   }
