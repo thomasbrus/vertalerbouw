@@ -55,9 +55,12 @@ public class Parser {
   protected void parseEntry() throws SyntaxError {
     if (currentToken.getKind().equals(Token.Kind.NUM)){
       nextChar();
-    }
+    } else
     if (currentToken.getKind().equals(Token.Kind.IDENTIFIER)){
       nextChar();
+    } else
+    if(!currentToken.getKind().equals(Token.Kind.AMPERSAND) && !currentToken.getKind().equals(Token.Kind.DOUBLE_BSLASH)){
+    	throw new SyntaxError("Unexpected token "+currentToken.getKind() + " while expecting Entry");
     }
   }
   protected void parseBeginTabular() throws SyntaxError {
