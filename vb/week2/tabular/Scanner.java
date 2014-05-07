@@ -78,7 +78,7 @@ public class Scanner {
                 
               
         switch(currentChar){
-        	case cEOT: return null;
+        	case cEOT: return new Token(Kind.EOT, "\\eot");
 	        case '{' : return new Token(Kind.LCURLY,"{");
 	        case '}' : return new Token(Kind.RCURLY,"}");
 	        case '-' : return new Token(Kind.BAR,"-");
