@@ -89,9 +89,14 @@ public class Scanner {
         }
 
         String identifier = "";
-        while(Character.isLetter(currentChar)){
-        	identifier += currentChar;
-        	currentChar = checkNextChar();
+        if (Character.isLetter(currentChar)) {
+          identifier += currentChar;
+          currentChar = checkNextChar();
+
+          while (Character.isLetter(currentChar) || Character.isDigit(currentChar)) {
+            identifier += currentChar;
+            currentChar = checkNextChar();
+          }
         }
         if(!identifier.isEmpty()){ this.resetChar(); return new Token(Kind.IDENTIFIER, identifier); }
 
