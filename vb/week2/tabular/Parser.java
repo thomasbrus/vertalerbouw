@@ -40,31 +40,40 @@ public class Parser {
     nextChar(Token.Kind.RCURLY);
   }
 
-  protected void parseRows() throws SyntaxError{
-    if(currentToken.getKind().equals(Token.Kind.RCURLY)) return;
-    while(currentToken.getKind().equals(Token.Kind.NUM) || currentToken.getKind().equals(Token.Kind.IDENTIFIER) || currentToken.getKind().equals(Token.Kind.AMPERSAND)){
-      parseEntries();
-      nextChar(Token.Kind.DOUBLE_BSLASH);
+  protected void parseRows() throws SyntaxError {
+    while (currentToken.getKind().equals(Token.Kind.DOUBLE_BSLASH) ||
+           currentToken.getKind().equals(Token.Kind.AMPERSAND) ||
+           currentToken.getKind().equals(Token.Kind.NUM) ||
+           currentToken.getKind().equals(Token.Kind.IDENTIFIER)) {
+      parseRow();
     }
   }
 
+  protected void parseRow() throws SyntaxError {
+    parseEntries();
+    nextChar(Token.Kind.DOUBLE_BSLASH);
+  }
+
   protected void parseEntries() throws SyntaxError {
-    parseEntry();
-    while(currentToken.getKind().equals(Token.Kind.AMPERSAND)){
-      nextChar();
+    // Support multiple entries inbetween ampersands by replacing
+    // this with a while loop
+    if (currentToken.getKind().equals(Token.Kind.NUM) ||
+        currentToken.getKind().equals(Token.Kind.IDENTIFIER)) {
       parseEntry();
+    }
+
+    if (currentToken.getKind().equals(Token.Kind.AMPERSAND)) {
+      nextChar(Token.Kind.AMPERSAND); parseEntries();
     }
   }
 
   protected void parseEntry() throws SyntaxError {
-    if (currentToken.getKind().equals(Token.Kind.NUM)){
-      nextChar();
-    } else
-    if (currentToken.getKind().equals(Token.Kind.IDENTIFIER)){
-      nextChar();
-    } else
-    if(!currentToken.getKind().equals(Token.Kind.AMPERSAND) && !currentToken.getKind().equals(Token.Kind.DOUBLE_BSLASH)){
-    	throw new SyntaxError("Unexpected token " + currentToken.getKind() + " while expecting Entry");
+    if (currentToken.getKind().equals(Token.Kind.IDENTIFIER)) {
+      nextChar(Token.Kind.IDENTIFIER);
+    } else if (currentToken.getKind().equals(Token.Kind.NUM)) {
+      nextChar(Token.Kind.NUM);
+    } else {
+      throw new SyntaxError("Unexpected token " + currentToken.getKind() + " while expecting NUM or IDENTIFIER");
     }
   }
 
