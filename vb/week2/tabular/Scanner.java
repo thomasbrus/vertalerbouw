@@ -47,19 +47,19 @@ public class Scanner {
             return cEOT;
         }
     }
-    
+
     private char checkNextChar() {
     		this.in.mark(1);
-    		char currentChar = getNextChar();    		
+    		char currentChar = getNextChar();
     		return currentChar;
     }
-    
+
     private void resetChar() {
     	try {
 			this.in.reset();
 		} catch (IOException e) { e.printStackTrace(); }
     }
-    
+
 
     /**
      * Returns the next Token from the input.
@@ -68,15 +68,15 @@ public class Scanner {
      *         has been found in the input.
      */
     public Token scan() throws SyntaxError
-    {    	    	
+    {
         char currentChar = getNextChar();
-        if(currentChar == cPERCENT) 
+        if(currentChar == cPERCENT)
 	        	while(currentChar != cEOLr && currentChar != cEOLn) currentChar = getNextChar();
-        
+
         while(currentChar == cSPACE || currentChar == cTAB || currentChar == cEOLr || currentChar == cEOLn)
-        	currentChar = getNextChar();   
-                
-              
+        	currentChar = getNextChar();
+
+
         switch(currentChar){
         	case cEOT: return new Token(Kind.EOT, "\\eot");
 	        case '{' : return new Token(Kind.LCURLY,"{");
@@ -85,33 +85,33 @@ public class Scanner {
 	        case cBSLASH: if(checkNextChar() == cBSLASH) return new Token(Kind.DOUBLE_BSLASH,"\\\\");
 						  this.resetChar();
 						  return new Token(Kind.BSLASH,"\\");
-	        case '&' : return new Token(Kind.AMPERSAND,"&"); 
+	        case '&' : return new Token(Kind.AMPERSAND,"&");
         }
-        
-        String identifier = "";        
+
+        String identifier = "";
         while(Character.isLetter(currentChar)){
         	identifier += currentChar;
         	currentChar = checkNextChar();
-        }        
+        }
         if(!identifier.isEmpty()){ this.resetChar(); return new Token(Kind.IDENTIFIER, identifier); }
-        
+
         while(Character.isDigit(currentChar)){
         	identifier += currentChar;
         	currentChar = checkNextChar();
-        }        
-        if(!identifier.isEmpty()) { this.resetChar(); return new Token(Kind.NUM, identifier); }                
-        
+        }
+        if(!identifier.isEmpty()) { this.resetChar(); return new Token(Kind.NUM, identifier); }
+
         throw new SyntaxError ("Character not recognized:" + currentChar);
 
-        
+
     }
-    
+
     public static void main (String[] vargs){
     	Scanner scanner =  new Scanner(System.in);
     	try {
     	Token token = scanner.scan();
     	while(token != null){
-    		System.out.println(token.getKind() + "\t" + token.getRepr());  
+    		System.out.println(token.getKind() + "\t" + token.getRepr());
     		token = scanner.scan();
     	}
     	System.out.println("Scanning OK. Number of lines: " + scanner.currentLineNr);
