@@ -3,8 +3,9 @@ package vb.week2.tabular;
 import vb.week2.tabular.Token.Kind;
 
 public class Parser {
-  private Scanner scanner;
-  private Token currentToken;
+  protected Scanner scanner;
+  protected Token currentToken;
+
   /**
   * @param scanner the Scanner object to be used for parsing
   * @requires scanner != null;
@@ -13,11 +14,11 @@ public class Parser {
     this.scanner = scanner;
     this.currentToken = null;
   }
-  
-  protected void nextChar() throws SyntaxError {    
-    this.currentToken = scanner.scan();  
+
+  protected void nextChar() throws SyntaxError {
+    this.currentToken = scanner.scan();
   }
-  
+
   protected void nextChar(Token.Kind kind) throws SyntaxError {
     if(currentToken.getKind().equals(kind)){
       this.currentToken = scanner.scan();
@@ -25,14 +26,14 @@ public class Parser {
       throw new SyntaxError("Unexpected token " + currentToken.getKind() + " while expecting " + kind);
     }
   }
-  
+
   protected void parseLatexTabular() throws SyntaxError{
     parseBeginTabular();
     parseColsSpec();
     parseRows();
     parseEndTabular();
   }
-  
+
   protected void parseColsSpec() throws SyntaxError {
     nextChar(Token.Kind.LCURLY);
     nextChar(Token.Kind.IDENTIFIER);
@@ -40,7 +41,7 @@ public class Parser {
   }
 
   protected void parseRows() throws SyntaxError{
-    if(currentToken.getKind().equals(Token.Kind.RCURLY)) return;  
+    if(currentToken.getKind().equals(Token.Kind.RCURLY)) return;
     while(currentToken.getKind().equals(Token.Kind.NUM) || currentToken.getKind().equals(Token.Kind.IDENTIFIER) || currentToken.getKind().equals(Token.Kind.AMPERSAND)){
       parseEntries();
       nextChar(Token.Kind.DOUBLE_BSLASH);
@@ -99,15 +100,15 @@ public class Parser {
     }
     return true;
   }
-  
+
   public static void main(String[] vargs){
     Scanner s = new Scanner(System.in);
     Parser p = new Parser(s);
     if(p.parse()){
       System.out.println("Successfully parsed.");
     } else {
-      System.out.println("An error occured while parsing.")
+      System.out.println("An error occured while parsing.");
     }
-    
+
   }
 }
