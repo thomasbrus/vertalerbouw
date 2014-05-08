@@ -19,6 +19,12 @@ import java.util.Map;
 import java.util.HashMap;
 }
 
+@rulecatch {
+    catch (CalcException e) {
+        throw e;
+    }
+}
+
 @members {
     private Map<String,Integer> store = new HashMap<String,Integer>();
 }
@@ -48,7 +54,10 @@ expr returns [int val = 0;]
 expr2 returns [int val = 0;]
     :   z=operand               { val = z;      }
     |   ^(MUL x=expr y=expr)   { val = x * y;  }
-    |   ^(DIV x=expr y=expr)  { val = x / y;  }
+    |   ^(DIV x=expr y=expr)  {
+          if (y == 0) throw new CalcException("Cannot divide by zero!");
+          val = x / y;
+        }
     ;
 
 operand returns [int val = 0]

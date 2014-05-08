@@ -54,16 +54,16 @@ expr
     |   ^(MINUS expr expr)
     ;
 
-expr2
+expr2 returns [int val = 0]
     :   operand
     |   ^(MUL expr expr)
-    |   ^(DIV expr expr)
+    |   ^(DIV e1=expr e2=expr)
     ;
 
 operand
     :   id=IDENTIFIER
-        {   if (!isDeclared($id.text))
-                throw new CalcException($id, "is not declared");
+        { if (!isDeclared($id.text))
+            throw new CalcException($id, "is not declared");
         }
     |   n=NUMBER
     ;

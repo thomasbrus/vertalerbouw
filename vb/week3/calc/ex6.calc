@@ -1,0 +1,13 @@
+// ex6.calc -- calculate distance in kilometers
+var velocity: integer;
+var timeInSeconds: integer;
+var timeInHours: integer;
+var distance: integer;
+
+velocity := 10;
+timeInSeconds := 60 * 30;
+timeInHours := timeInSeconds / (60 * 60);
+
+distance := velocity * timeInHours;
+
+print(distance);

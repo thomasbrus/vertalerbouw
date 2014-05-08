@@ -1,12 +1,9 @@
-// ex4.calc -- calculate distance in kilometers
-var velocity: integer;
-var time_in_seconds: integer;
-var distance: integer;
+var x: integer;
+var y: integer;
+var z: integer;
 
-velocity := 10;
-time_in_seconds := 60 * 30;
-time_in_hours := time_in_seconds / (60 * 60);
+x := 3;
+y := 4;
+z := 0;
 
-distance = velocity * time_in_hours;
-
-print(distance);
+print(x + y / z); // Error: Cannot divide by zero
