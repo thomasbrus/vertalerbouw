@@ -1,0 +1,12 @@
+// ex4.calc -- calculate distance in kilometers
+var velocity: integer;
+var time_in_seconds: integer;
+var distance: integer;
+
+velocity := 10;
+time_in_seconds := 60 * 30;
+time_in_hours := time_in_seconds / (60 * 60);
+
+distance = velocity * time_in_hours;
+
+print(distance);

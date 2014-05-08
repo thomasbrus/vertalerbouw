@@ -19,37 +19,43 @@ import java.util.Map;
 import java.util.HashMap;
 }
 
-@members { 
-    private Map<String,Integer> store = new HashMap<String,Integer>();   
+@members {
+    private Map<String,Integer> store = new HashMap<String,Integer>();
 }
 
 program
     :   ^(PROGRAM (declaration | statement)+)
     ;
-    
+
 declaration
     :   ^(VAR id=IDENTIFIER type)
-            { store.put($id.text, 0); } 
+            { store.put($id.text, 0); }
     ;
 
-statement 
+statement
     :   ^(BECOMES id=IDENTIFIER v=expr)
             { store.put($id.text, v);       }
     |   ^(PRINT v=expr)
             { System.out.println("" + v);   }
     ;
-    
-expr returns [int val = 0;] 
-    :   z=operand               { val = z;      }
+
+expr returns [int val = 0;]
+    :   z=expr2                 { val = z;      }
     |   ^(PLUS x=expr y=expr)   { val = x + y;  }
     |   ^(MINUS x=expr y=expr)  { val = x - y;  }
     ;
-    
+
+expr2 returns [int val = 0;]
+    :   z=operand               { val = z;      }
+    |   ^(MUL x=expr y=expr)   { val = x * y;  }
+    |   ^(DIV x=expr y=expr)  { val = x / y;  }
+    ;
+
 operand returns [int val = 0]
-    :   id=IDENTIFIER   { val = store.get($id.text);       } 
+    :   id=IDENTIFIER   { val = store.get($id.text);       }
     |   n=NUMBER        { val = Integer.parseInt($n.text); }
     ;
-    
+
 type
     :   INTEGER
     ;

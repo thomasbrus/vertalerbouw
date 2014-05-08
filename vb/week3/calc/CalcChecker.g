@@ -11,18 +11,18 @@ import java.util.Set;
 import java.util.HashSet;
 }
 
-// Alter code generation so catch-clauses get replaced with this action. 
+// Alter code generation so catch-clauses get replaced with this action.
 // This disables ANTLR error handling: CalcExceptions are propagated upwards.
-@rulecatch { 
-    catch (RecognitionException e) { 
-        throw e; 
-    } 
+@rulecatch {
+    catch (RecognitionException e) {
+        throw e;
+    }
 }
 
 @members {
     // idset - a set of declared identifiers.
-    private Set<String> idset = new HashSet<String>();   
-    
+    private Set<String> idset = new HashSet<String>();
+
     public boolean  isDeclared(String s)     { return idset.contains(s); }
     public void     declare(String s)        { idset.add(s);             }
 }
@@ -30,38 +30,44 @@ import java.util.HashSet;
 program
     :   ^(PROGRAM (declaration | statement)+)
     ;
-    
+
 declaration
     :   ^(VAR id=IDENTIFIER type)
         {   if (isDeclared($id.text))
                 throw new CalcException($id, "is already declared");
-            else 
-                declare($id.getText()); 
+            else
+                declare($id.getText());
         }
     ;
- 
-statement 
+
+statement
     :   ^(BECOMES id=IDENTIFIER expr)
         {   if (!isDeclared($id.text))
                 throw new CalcException($id, "is not declared");
         }
     |   ^(PRINT expr)
     ;
-    
-expr 
-    :   operand
+
+expr
+    :   expr2
     |   ^(PLUS expr expr)
     |   ^(MINUS expr expr)
     ;
-    
+
+expr2
+    :   operand
+    |   ^(MUL expr expr)
+    |   ^(DIV expr expr)
+    ;
+
 operand
-    :   id=IDENTIFIER 
+    :   id=IDENTIFIER
         {   if (!isDeclared($id.text))
                 throw new CalcException($id, "is not declared");
         }
-    |   n=NUMBER 
+    |   n=NUMBER
     ;
-    
+
 type
     :   INTEGER
     ;

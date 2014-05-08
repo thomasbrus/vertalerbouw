@@ -16,6 +16,8 @@ tokens {
     BECOMES     =   ':='    ;
     PLUS        =   '+'     ;
     MINUS       =   '-'     ;
+    MUL        =   '*'      ;
+    DIV        =   '/'      ;
 
     // keywords
     PROGRAM     =   'program'   ;
@@ -38,11 +40,11 @@ program
     :   declarations statements EOF
             ->  ^(PROGRAM declarations? statements)
     ;
-    
+
 declarations
     :   (declaration SEMICOLON!)*
     ;
-    
+
 statements
     :   (statement SEMICOLON!)+
     ;
@@ -50,7 +52,7 @@ statements
 declaration
     :   VAR^ IDENTIFIER COLON! type
     ;
-    
+
 statement
     :   assignment
     |   print_stat
@@ -67,9 +69,13 @@ print_stat
 lvalue
     :   IDENTIFIER
     ;
-    
+
 expr
-    :   operand ((PLUS^ | MINUS^) operand )*
+    :   expr2 ((PLUS^ | MINUS^) expr2)*
+    ;
+
+expr2
+    :   operand ((MUL^ | DIV^) operand)*
     ;
 
 operand
@@ -95,7 +101,7 @@ NUMBER
 
 
 COMMENT
-    :   '//' .* '\n' 
+    :   '//' .* '\n'
             { $channel=HIDDEN; }
     ;
 
@@ -110,4 +116,3 @@ fragment UPPER  :   ('A'..'Z') ;
 fragment LETTER :   LOWER | UPPER ;
 
 // EOF
-

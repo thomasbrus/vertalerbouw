@@ -1,4 +1,4 @@
-// $ANTLR 3.5.2 vb/week3/calc/CalcChecker.g 2014-05-08 14:14:46
+// $ANTLR 3.5.2 vb/week3/calc/CalcChecker.g 2014-05-08 15:01:45
 
 package vb.week3.calc;
 import java.util.Set;
@@ -15,30 +15,32 @@ import java.util.ArrayList;
 public class CalcChecker extends TreeParser {
 	public static final String[] tokenNames = new String[] {
 		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "BECOMES", "COLON", "COMMENT", 
-		"DIGIT", "IDENTIFIER", "INTEGER", "LETTER", "LOWER", "LPAREN", "MINUS", 
-		"NUMBER", "PLUS", "PRINT", "PROGRAM", "RPAREN", "SEMICOLON", "UPPER", 
-		"VAR", "WS"
+		"DIGIT", "DIV", "IDENTIFIER", "INTEGER", "LETTER", "LOWER", "LPAREN", 
+		"MINUS", "MUL", "NUMBER", "PLUS", "PRINT", "PROGRAM", "RPAREN", "SEMICOLON", 
+		"UPPER", "VAR", "WS"
 	};
 	public static final int EOF=-1;
 	public static final int BECOMES=4;
 	public static final int COLON=5;
 	public static final int COMMENT=6;
 	public static final int DIGIT=7;
-	public static final int IDENTIFIER=8;
-	public static final int INTEGER=9;
-	public static final int LETTER=10;
-	public static final int LOWER=11;
-	public static final int LPAREN=12;
-	public static final int MINUS=13;
-	public static final int NUMBER=14;
-	public static final int PLUS=15;
-	public static final int PRINT=16;
-	public static final int PROGRAM=17;
-	public static final int RPAREN=18;
-	public static final int SEMICOLON=19;
-	public static final int UPPER=20;
-	public static final int VAR=21;
-	public static final int WS=22;
+	public static final int DIV=8;
+	public static final int IDENTIFIER=9;
+	public static final int INTEGER=10;
+	public static final int LETTER=11;
+	public static final int LOWER=12;
+	public static final int LPAREN=13;
+	public static final int MINUS=14;
+	public static final int MUL=15;
+	public static final int NUMBER=16;
+	public static final int PLUS=17;
+	public static final int PRINT=18;
+	public static final int PROGRAM=19;
+	public static final int RPAREN=20;
+	public static final int SEMICOLON=21;
+	public static final int UPPER=22;
+	public static final int VAR=23;
+	public static final int WS=24;
 
 	// delegates
 	public TreeParser[] getDelegates() {
@@ -60,8 +62,8 @@ public class CalcChecker extends TreeParser {
 
 
 	    // idset - a set of declared identifiers.
-	    private Set<String> idset = new HashSet<String>();   
-	    
+	    private Set<String> idset = new HashSet<String>();
+
 	    public boolean  isDeclared(String s)     { return idset.contains(s); }
 	    public void     declare(String s)        { idset.add(s);             }
 
@@ -122,10 +124,10 @@ public class CalcChecker extends TreeParser {
 			}
 
 		}
-		 
-		    catch (RecognitionException e) { 
-		        throw e; 
-		    } 
+
+		    catch (RecognitionException e) {
+		        throw e;
+		    }
 
 		finally {
 			// do for sure before leaving
@@ -144,10 +146,10 @@ public class CalcChecker extends TreeParser {
 			// vb/week3/calc/CalcChecker.g:35:5: ( ^( VAR id= IDENTIFIER type ) )
 			// vb/week3/calc/CalcChecker.g:35:9: ^( VAR id= IDENTIFIER type )
 			{
-			match(input,VAR,FOLLOW_VAR_in_declaration128); 
+			match(input,VAR,FOLLOW_VAR_in_declaration124); 
 			match(input, Token.DOWN, null); 
-			id=(CommonTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_declaration132); 
-			pushFollow(FOLLOW_type_in_declaration134);
+			id=(CommonTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_declaration128); 
+			pushFollow(FOLLOW_type_in_declaration130);
 			type();
 			state._fsp--;
 
@@ -155,16 +157,16 @@ public class CalcChecker extends TreeParser {
 
 			   if (isDeclared((id!=null?id.getText():null)))
 			                throw new CalcException(id, "is already declared");
-			            else 
-			                declare(id.getText()); 
+			            else
+			                declare(id.getText());
 			        
 			}
 
 		}
-		 
-		    catch (RecognitionException e) { 
-		        throw e; 
-		    } 
+
+		    catch (RecognitionException e) {
+		        throw e;
+		    }
 
 		finally {
 			// do for sure before leaving
@@ -200,10 +202,10 @@ public class CalcChecker extends TreeParser {
 				case 1 :
 					// vb/week3/calc/CalcChecker.g:44:9: ^( BECOMES id= IDENTIFIER expr )
 					{
-					match(input,BECOMES,FOLLOW_BECOMES_in_statement167); 
+					match(input,BECOMES,FOLLOW_BECOMES_in_statement161); 
 					match(input, Token.DOWN, null); 
-					id=(CommonTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_statement171); 
-					pushFollow(FOLLOW_expr_in_statement173);
+					id=(CommonTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_statement165); 
+					pushFollow(FOLLOW_expr_in_statement167);
 					expr();
 					state._fsp--;
 
@@ -217,9 +219,9 @@ public class CalcChecker extends TreeParser {
 				case 2 :
 					// vb/week3/calc/CalcChecker.g:48:9: ^( PRINT expr )
 					{
-					match(input,PRINT,FOLLOW_PRINT_in_statement195); 
+					match(input,PRINT,FOLLOW_PRINT_in_statement189); 
 					match(input, Token.DOWN, null); 
-					pushFollow(FOLLOW_expr_in_statement197);
+					pushFollow(FOLLOW_expr_in_statement191);
 					expr();
 					state._fsp--;
 
@@ -230,10 +232,10 @@ public class CalcChecker extends TreeParser {
 
 			}
 		}
-		 
-		    catch (RecognitionException e) { 
-		        throw e; 
-		    } 
+
+		    catch (RecognitionException e) {
+		        throw e;
+		    }
 
 		finally {
 			// do for sure before leaving
@@ -244,13 +246,15 @@ public class CalcChecker extends TreeParser {
 
 
 	// $ANTLR start "expr"
-	// vb/week3/calc/CalcChecker.g:51:1: expr : ( operand | ^( PLUS expr expr ) | ^( MINUS expr expr ) );
+	// vb/week3/calc/CalcChecker.g:51:1: expr : ( expr2 | ^( PLUS expr expr ) | ^( MINUS expr expr ) );
 	public final void expr() throws RecognitionException {
 		try {
-			// vb/week3/calc/CalcChecker.g:52:5: ( operand | ^( PLUS expr expr ) | ^( MINUS expr expr ) )
+			// vb/week3/calc/CalcChecker.g:52:5: ( expr2 | ^( PLUS expr expr ) | ^( MINUS expr expr ) )
 			int alt3=3;
 			switch ( input.LA(1) ) {
+			case DIV:
 			case IDENTIFIER:
+			case MUL:
 			case NUMBER:
 				{
 				alt3=1;
@@ -273,10 +277,10 @@ public class CalcChecker extends TreeParser {
 			}
 			switch (alt3) {
 				case 1 :
-					// vb/week3/calc/CalcChecker.g:52:9: operand
+					// vb/week3/calc/CalcChecker.g:52:9: expr2
 					{
-					pushFollow(FOLLOW_operand_in_expr222);
-					operand();
+					pushFollow(FOLLOW_expr2_in_expr211);
+					expr2();
 					state._fsp--;
 
 					}
@@ -284,13 +288,13 @@ public class CalcChecker extends TreeParser {
 				case 2 :
 					// vb/week3/calc/CalcChecker.g:53:9: ^( PLUS expr expr )
 					{
-					match(input,PLUS,FOLLOW_PLUS_in_expr233); 
+					match(input,PLUS,FOLLOW_PLUS_in_expr222); 
 					match(input, Token.DOWN, null); 
-					pushFollow(FOLLOW_expr_in_expr235);
+					pushFollow(FOLLOW_expr_in_expr224);
 					expr();
 					state._fsp--;
 
-					pushFollow(FOLLOW_expr_in_expr237);
+					pushFollow(FOLLOW_expr_in_expr226);
 					expr();
 					state._fsp--;
 
@@ -301,13 +305,13 @@ public class CalcChecker extends TreeParser {
 				case 3 :
 					// vb/week3/calc/CalcChecker.g:54:9: ^( MINUS expr expr )
 					{
-					match(input,MINUS,FOLLOW_MINUS_in_expr249); 
+					match(input,MINUS,FOLLOW_MINUS_in_expr238); 
 					match(input, Token.DOWN, null); 
-					pushFollow(FOLLOW_expr_in_expr251);
+					pushFollow(FOLLOW_expr_in_expr240);
 					expr();
 					state._fsp--;
 
-					pushFollow(FOLLOW_expr_in_expr253);
+					pushFollow(FOLLOW_expr_in_expr242);
 					expr();
 					state._fsp--;
 
@@ -318,10 +322,10 @@ public class CalcChecker extends TreeParser {
 
 			}
 		}
-		 
-		    catch (RecognitionException e) { 
-		        throw e; 
-		    } 
+
+		    catch (RecognitionException e) {
+		        throw e;
+		    }
 
 		finally {
 			// do for sure before leaving
@@ -331,52 +335,140 @@ public class CalcChecker extends TreeParser {
 
 
 
+	// $ANTLR start "expr2"
+	// vb/week3/calc/CalcChecker.g:57:1: expr2 : ( operand | ^( MUL expr expr ) | ^( DIV expr expr ) );
+	public final void expr2() throws RecognitionException {
+		try {
+			// vb/week3/calc/CalcChecker.g:58:5: ( operand | ^( MUL expr expr ) | ^( DIV expr expr ) )
+			int alt4=3;
+			switch ( input.LA(1) ) {
+			case IDENTIFIER:
+			case NUMBER:
+				{
+				alt4=1;
+				}
+				break;
+			case MUL:
+				{
+				alt4=2;
+				}
+				break;
+			case DIV:
+				{
+				alt4=3;
+				}
+				break;
+			default:
+				NoViableAltException nvae =
+					new NoViableAltException("", 4, 0, input);
+				throw nvae;
+			}
+			switch (alt4) {
+				case 1 :
+					// vb/week3/calc/CalcChecker.g:58:9: operand
+					{
+					pushFollow(FOLLOW_operand_in_expr2262);
+					operand();
+					state._fsp--;
+
+					}
+					break;
+				case 2 :
+					// vb/week3/calc/CalcChecker.g:59:9: ^( MUL expr expr )
+					{
+					match(input,MUL,FOLLOW_MUL_in_expr2273); 
+					match(input, Token.DOWN, null); 
+					pushFollow(FOLLOW_expr_in_expr2275);
+					expr();
+					state._fsp--;
+
+					pushFollow(FOLLOW_expr_in_expr2277);
+					expr();
+					state._fsp--;
+
+					match(input, Token.UP, null); 
+
+					}
+					break;
+				case 3 :
+					// vb/week3/calc/CalcChecker.g:60:9: ^( DIV expr expr )
+					{
+					match(input,DIV,FOLLOW_DIV_in_expr2289); 
+					match(input, Token.DOWN, null); 
+					pushFollow(FOLLOW_expr_in_expr2291);
+					expr();
+					state._fsp--;
+
+					pushFollow(FOLLOW_expr_in_expr2293);
+					expr();
+					state._fsp--;
+
+					match(input, Token.UP, null); 
+
+					}
+					break;
+
+			}
+		}
+
+		    catch (RecognitionException e) {
+		        throw e;
+		    }
+
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "expr2"
+
+
+
 	// $ANTLR start "operand"
-	// vb/week3/calc/CalcChecker.g:57:1: operand : (id= IDENTIFIER |n= NUMBER );
+	// vb/week3/calc/CalcChecker.g:63:1: operand : (id= IDENTIFIER |n= NUMBER );
 	public final void operand() throws RecognitionException {
 		CommonTree id=null;
 		CommonTree n=null;
 
 		try {
-			// vb/week3/calc/CalcChecker.g:58:5: (id= IDENTIFIER |n= NUMBER )
-			int alt4=2;
-			int LA4_0 = input.LA(1);
-			if ( (LA4_0==IDENTIFIER) ) {
-				alt4=1;
+			// vb/week3/calc/CalcChecker.g:64:5: (id= IDENTIFIER |n= NUMBER )
+			int alt5=2;
+			int LA5_0 = input.LA(1);
+			if ( (LA5_0==IDENTIFIER) ) {
+				alt5=1;
 			}
-			else if ( (LA4_0==NUMBER) ) {
-				alt4=2;
+			else if ( (LA5_0==NUMBER) ) {
+				alt5=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 4, 0, input);
+					new NoViableAltException("", 5, 0, input);
 				throw nvae;
 			}
 
-			switch (alt4) {
+			switch (alt5) {
 				case 1 :
-					// vb/week3/calc/CalcChecker.g:58:9: id= IDENTIFIER
+					// vb/week3/calc/CalcChecker.g:64:9: id= IDENTIFIER
 					{
-					id=(CommonTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_operand279); 
+					id=(CommonTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_operand315); 
 					   if (!isDeclared((id!=null?id.getText():null)))
 					                throw new CalcException(id, "is not declared");
 					        
 					}
 					break;
 				case 2 :
-					// vb/week3/calc/CalcChecker.g:62:9: n= NUMBER
+					// vb/week3/calc/CalcChecker.g:68:9: n= NUMBER
 					{
-					n=(CommonTree)match(input,NUMBER,FOLLOW_NUMBER_in_operand302); 
+					n=(CommonTree)match(input,NUMBER,FOLLOW_NUMBER_in_operand337); 
 					}
 					break;
 
 			}
 		}
-		 
-		    catch (RecognitionException e) { 
-		        throw e; 
-		    } 
+
+		    catch (RecognitionException e) {
+		        throw e;
+		    }
 
 		finally {
 			// do for sure before leaving
@@ -387,20 +479,20 @@ public class CalcChecker extends TreeParser {
 
 
 	// $ANTLR start "type"
-	// vb/week3/calc/CalcChecker.g:65:1: type : INTEGER ;
+	// vb/week3/calc/CalcChecker.g:71:1: type : INTEGER ;
 	public final void type() throws RecognitionException {
 		try {
-			// vb/week3/calc/CalcChecker.g:66:5: ( INTEGER )
-			// vb/week3/calc/CalcChecker.g:66:9: INTEGER
+			// vb/week3/calc/CalcChecker.g:72:5: ( INTEGER )
+			// vb/week3/calc/CalcChecker.g:72:9: INTEGER
 			{
-			match(input,INTEGER,FOLLOW_INTEGER_in_type326); 
+			match(input,INTEGER,FOLLOW_INTEGER_in_type356); 
 			}
 
 		}
-		 
-		    catch (RecognitionException e) { 
-		        throw e; 
-		    } 
+
+		    catch (RecognitionException e) {
+		        throw e;
+		    }
 
 		finally {
 			// do for sure before leaving
@@ -413,24 +505,31 @@ public class CalcChecker extends TreeParser {
 
 
 	public static final BitSet FOLLOW_PROGRAM_in_program94 = new BitSet(new long[]{0x0000000000000004L});
-	public static final BitSet FOLLOW_declaration_in_program97 = new BitSet(new long[]{0x0000000000210018L});
-	public static final BitSet FOLLOW_statement_in_program101 = new BitSet(new long[]{0x0000000000210018L});
-	public static final BitSet FOLLOW_VAR_in_declaration128 = new BitSet(new long[]{0x0000000000000004L});
-	public static final BitSet FOLLOW_IDENTIFIER_in_declaration132 = new BitSet(new long[]{0x0000000000000200L});
-	public static final BitSet FOLLOW_type_in_declaration134 = new BitSet(new long[]{0x0000000000000008L});
-	public static final BitSet FOLLOW_BECOMES_in_statement167 = new BitSet(new long[]{0x0000000000000004L});
-	public static final BitSet FOLLOW_IDENTIFIER_in_statement171 = new BitSet(new long[]{0x000000000000E100L});
-	public static final BitSet FOLLOW_expr_in_statement173 = new BitSet(new long[]{0x0000000000000008L});
-	public static final BitSet FOLLOW_PRINT_in_statement195 = new BitSet(new long[]{0x0000000000000004L});
-	public static final BitSet FOLLOW_expr_in_statement197 = new BitSet(new long[]{0x0000000000000008L});
-	public static final BitSet FOLLOW_operand_in_expr222 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_PLUS_in_expr233 = new BitSet(new long[]{0x0000000000000004L});
-	public static final BitSet FOLLOW_expr_in_expr235 = new BitSet(new long[]{0x000000000000E100L});
-	public static final BitSet FOLLOW_expr_in_expr237 = new BitSet(new long[]{0x0000000000000008L});
-	public static final BitSet FOLLOW_MINUS_in_expr249 = new BitSet(new long[]{0x0000000000000004L});
-	public static final BitSet FOLLOW_expr_in_expr251 = new BitSet(new long[]{0x000000000000E100L});
-	public static final BitSet FOLLOW_expr_in_expr253 = new BitSet(new long[]{0x0000000000000008L});
-	public static final BitSet FOLLOW_IDENTIFIER_in_operand279 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NUMBER_in_operand302 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_INTEGER_in_type326 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_declaration_in_program97 = new BitSet(new long[]{0x0000000000840018L});
+	public static final BitSet FOLLOW_statement_in_program101 = new BitSet(new long[]{0x0000000000840018L});
+	public static final BitSet FOLLOW_VAR_in_declaration124 = new BitSet(new long[]{0x0000000000000004L});
+	public static final BitSet FOLLOW_IDENTIFIER_in_declaration128 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_type_in_declaration130 = new BitSet(new long[]{0x0000000000000008L});
+	public static final BitSet FOLLOW_BECOMES_in_statement161 = new BitSet(new long[]{0x0000000000000004L});
+	public static final BitSet FOLLOW_IDENTIFIER_in_statement165 = new BitSet(new long[]{0x000000000003C300L});
+	public static final BitSet FOLLOW_expr_in_statement167 = new BitSet(new long[]{0x0000000000000008L});
+	public static final BitSet FOLLOW_PRINT_in_statement189 = new BitSet(new long[]{0x0000000000000004L});
+	public static final BitSet FOLLOW_expr_in_statement191 = new BitSet(new long[]{0x0000000000000008L});
+	public static final BitSet FOLLOW_expr2_in_expr211 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_PLUS_in_expr222 = new BitSet(new long[]{0x0000000000000004L});
+	public static final BitSet FOLLOW_expr_in_expr224 = new BitSet(new long[]{0x000000000003C300L});
+	public static final BitSet FOLLOW_expr_in_expr226 = new BitSet(new long[]{0x0000000000000008L});
+	public static final BitSet FOLLOW_MINUS_in_expr238 = new BitSet(new long[]{0x0000000000000004L});
+	public static final BitSet FOLLOW_expr_in_expr240 = new BitSet(new long[]{0x000000000003C300L});
+	public static final BitSet FOLLOW_expr_in_expr242 = new BitSet(new long[]{0x0000000000000008L});
+	public static final BitSet FOLLOW_operand_in_expr2262 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_MUL_in_expr2273 = new BitSet(new long[]{0x0000000000000004L});
+	public static final BitSet FOLLOW_expr_in_expr2275 = new BitSet(new long[]{0x000000000003C300L});
+	public static final BitSet FOLLOW_expr_in_expr2277 = new BitSet(new long[]{0x0000000000000008L});
+	public static final BitSet FOLLOW_DIV_in_expr2289 = new BitSet(new long[]{0x0000000000000004L});
+	public static final BitSet FOLLOW_expr_in_expr2291 = new BitSet(new long[]{0x000000000003C300L});
+	public static final BitSet FOLLOW_expr_in_expr2293 = new BitSet(new long[]{0x0000000000000008L});
+	public static final BitSet FOLLOW_IDENTIFIER_in_operand315 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NUMBER_in_operand337 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_INTEGER_in_type356 = new BitSet(new long[]{0x0000000000000002L});
 }
