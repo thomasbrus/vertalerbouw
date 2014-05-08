@@ -4,3 +4,4 @@
 sample-*.txt
 sample-*.tex
 *.tokens
+*.dot
