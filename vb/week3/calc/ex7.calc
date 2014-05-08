@@ -1,0 +1,12 @@
+// ex6.calc -- swap values
+var x: integer;
+var y: integer;
+
+x := 9;
+y := 2;
+
+print(x - y);
+
+swap(x, y);
+
+print(x - y);
