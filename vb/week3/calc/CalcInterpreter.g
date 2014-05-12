@@ -50,12 +50,17 @@ statement
     ;
 
 expr returns [int val = 0;]
-    :   z=expr2                 { val = z;      }
+    : z=expr2                   { val = z; }
+    | ^(IF c=operand THEN e1=expr ELSE e2=expr) { val = e1; }
+    ;
+
+expr2 returns [int val = 0;]
+    :   z=expr3                 { val = z;      }
     |   ^(PLUS x=expr y=expr)   { val = x + y;  }
     |   ^(MINUS x=expr y=expr)  { val = x - y;  }
     ;
 
-expr2 returns [int val = 0;]
+expr3 returns [int val = 0;]
     :   z=operand               { val = z;      }
     |   ^(MUL x=expr y=expr)   { val = x * y;  }
     |   ^(DIV x=expr y=expr)  {

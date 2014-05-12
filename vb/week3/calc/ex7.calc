@@ -1,4 +1,4 @@
-// ex6.calc -- swap values
+// ex7.calc -- swap values
 var x: integer;
 var y: integer;
 

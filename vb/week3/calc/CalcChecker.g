@@ -50,12 +50,17 @@ statement
     ;
 
 expr
-    :   expr2
+    : expr2
+    | ^(IF operand THEN expr ELSE expr)
+    ;
+
+expr2
+    :   expr3
     |   ^(PLUS expr expr)
     |   ^(MINUS expr expr)
     ;
 
-expr2 returns [int val = 0]
+expr3
     :   operand
     |   ^(MUL expr expr)
     |   ^(DIV e1=expr e2=expr)
