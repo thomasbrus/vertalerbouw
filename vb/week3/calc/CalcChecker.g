@@ -51,6 +51,7 @@ statement
 
 expr
     :   ^(IF expr expr expr)
+    |   ^(LT expr expr)
     |   ^(PLUS expr expr)
     |   ^(MINUS expr expr)
     |   ^(MUL expr expr)

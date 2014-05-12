@@ -53,11 +53,12 @@ expr returns [int val = 0;]
     :   z=operand                   { val = z; }
     |   ^(IF c=expr e1=expr e2=expr) {
           if (c == 0) {
-            val = e1;
-          } else {
             val = e2;
+          } else {
+            val = e1;
           }
         }
+    |   ^(LT x=expr y=expr) { val = (x < y) ? 1 : 0; }
     |   ^(PLUS x=expr y=expr)   { val = x + y;  }
     |   ^(MINUS x=expr y=expr)  { val = x - y;  }
     |   ^(MUL x=expr y=expr)   { val = x * y;  }

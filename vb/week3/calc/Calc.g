@@ -20,6 +20,9 @@ tokens {
     MUL        =   '*'      ;
     DIV        =   '/'      ;
 
+    // boolean comparison
+    LT        =     '<'     ;
+
     // keywords
     PROGRAM     =   'program'   ;
     VAR         =   'var'       ;
@@ -86,10 +89,14 @@ expr
     ;
 
 expr2
-    :   expr3 ((PLUS^ | MINUS^) expr3)*
+    :   expr3 ((LT^) expr3)*
     ;
 
 expr3
+    :   expr4 ((PLUS^ | MINUS^) expr4)*
+    ;
+
+expr4
     :   operand ((MUL^ | DIV^) operand)*
     ;
 
