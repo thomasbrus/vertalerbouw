@@ -59,6 +59,11 @@ expr returns [int val = 0;]
           }
         }
     |   ^(LT x=expr y=expr) { val = (x < y) ? 1 : 0; }
+    |   ^(LTE x=expr y=expr) { val = (x <= y) ? 1 : 0; }
+    |   ^(GT x=expr y=expr) { val = (x > y) ? 1 : 0; }
+    |   ^(GTE x=expr y=expr) { val = (x >= y) ? 1 : 0; }
+    |   ^(EQ x=expr y=expr) { val = (x == y) ? 1 : 0; }
+    |   ^(NEQ x=expr y=expr) { val = (x != y) ? 1 : 0; }
     |   ^(PLUS x=expr y=expr)   { val = x + y;  }
     |   ^(MINUS x=expr y=expr)  { val = x - y;  }
     |   ^(MUL x=expr y=expr)   { val = x * y;  }

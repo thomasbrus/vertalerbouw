@@ -52,6 +52,11 @@ statement
 expr
     :   ^(IF expr expr expr)
     |   ^(LT expr expr)
+    |   ^(LTE expr expr)
+    |   ^(GT expr expr)
+    |   ^(GTE expr expr)
+    |   ^(EQ expr expr)
+    |   ^(NEQ expr expr)
     |   ^(PLUS expr expr)
     |   ^(MINUS expr expr)
     |   ^(MUL expr expr)

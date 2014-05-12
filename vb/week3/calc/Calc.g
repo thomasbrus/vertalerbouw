@@ -17,11 +17,16 @@ tokens {
     BECOMES     =   ':='    ;
     PLUS        =   '+'     ;
     MINUS       =   '-'     ;
-    MUL        =   '*'      ;
-    DIV        =   '/'      ;
+    MUL         =   '*'     ;
+    DIV         =   '/'     ;
 
     // boolean comparison
-    LT        =     '<'     ;
+    LT          =   '<'     ;
+    LTE         =   '<='    ;
+    GT          =   '>'     ;
+    GTE         =   '>='    ;
+    EQ          =   '=='    ;
+    NEQ         =   '!='    ;
 
     // keywords
     PROGRAM     =   'program'   ;
@@ -89,7 +94,7 @@ expr
     ;
 
 expr2
-    :   expr3 ((LT^) expr3)*
+    :   expr3 ((LT^ | LTE^ | GT^ | GTE^ | EQ^ | NEQ^) expr3)*
     ;
 
 expr3
