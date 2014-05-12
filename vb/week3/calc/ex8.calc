@@ -1,2 +1,8 @@
 // ex8.calc -- if expressions
-print(if 0 then 10 else 20);
+var minimumAge: integer;
+var myAge: integer;
+
+minimumAge := 21;
+myAge := 22;
+
+print(if (myAge < minimumAge) then 0 else 1);

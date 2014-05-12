@@ -50,18 +50,16 @@ statement
     ;
 
 expr returns [int val = 0;]
-    : z=expr2                   { val = z; }
-    | ^(IF c=operand THEN e1=expr ELSE e2=expr) { val = e1; }
-    ;
-
-expr2 returns [int val = 0;]
-    :   z=expr3                 { val = z;      }
+    :   z=operand                   { val = z; }
+    |   ^(IF c=expr e1=expr e2=expr) {
+          if (c == 0) {
+            val = e1;
+          } else {
+            val = e2;
+          }
+        }
     |   ^(PLUS x=expr y=expr)   { val = x + y;  }
     |   ^(MINUS x=expr y=expr)  { val = x - y;  }
-    ;
-
-expr3 returns [int val = 0;]
-    :   z=operand               { val = z;      }
     |   ^(MUL x=expr y=expr)   { val = x * y;  }
     |   ^(DIV x=expr y=expr)  {
           if (y == 0) throw new CalcException("Cannot divide by zero!");

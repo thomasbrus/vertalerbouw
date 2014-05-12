@@ -81,7 +81,7 @@ lvalue
     ;
 
 expr
-    :   IF operand THEN expr ELSE expr
+    :   IF^ expr2 THEN! expr2 ELSE! expr2
     |   expr2
     ;
 
