@@ -17,26 +17,28 @@ tokens {
     BECOMES     =   ':='    ;
     PLUS        =   '+'     ;
     MINUS       =   '-'     ;
-    MUL         =   '*'     ;
-    DIV         =   '/'     ;
-
-    // boolean comparison
-    LT          =   '<'     ;
-    LTE         =   '<='    ;
-    GT          =   '>'     ;
+    TIMES		=   '*'		;
+    DIV			=   '/'		;
+ 
     GTE         =   '>='    ;
+    GT          =   '>'     ;
+    LTE         =   '<='    ;
+    LT          =   '<'     ;
     EQ          =   '=='    ;
     NEQ         =   '!='    ;
+
+    DO          =   'do';
+    WHILE       =   'while';
 
     // keywords
     PROGRAM     =   'program'   ;
     VAR         =   'var'       ;
     PRINT       =   'print'     ;
-    SWAP        =   'swap'      ;
     INTEGER     =   'integer'   ;
+    SWAP        =   'swap'      ;
     IF          =   'if'        ;
     THEN        =   'then'      ;
-    ELSE        =   'else'      ;
+    ELSE        =   'else'      ;            
 }
 
 @lexer::header {
@@ -50,65 +52,73 @@ package vb.week3.calc;
 // Parser rules
 
 program
-    :   declarations statements EOF
-            ->  ^(PROGRAM declarations? statements)
+    :   program2 EOF
+            ->  ^(PROGRAM program2)
+    ;
+    
+program2
+    :  ((declaration | statement) SEMICOLON!)*
     ;
 
-declarations
-    :   (declaration SEMICOLON!)*
-    ;
 
-statements
-    :   (statement SEMICOLON!)+
-    ;
 
 declaration
     :   VAR^ IDENTIFIER COLON! type
     ;
-
+    
 statement
     :   assignment
     |   print_stat
-    |   swap_stat
-    ;
-
-assignment
-    :   lvalue BECOMES^ expr
+    |   swap
+    |   dowhileStatement
     ;
 
 print_stat
     :   PRINT^ LPAREN! expr RPAREN!
     ;
 
-swap_stat
-    :  SWAP^ LPAREN! IDENTIFIER COMMA! IDENTIFIER RPAREN!
+swap
+    :   SWAP^ LPAREN! IDENTIFIER COMMA! IDENTIFIER RPAREN!
     ;
+
+
+dowhileStatement : DO statements WHILE expr;
+statements       : (statement SEMICOLON!)+ ;
+
 
 lvalue
     :   IDENTIFIER
+    ;    
+
+assignment
+    :   lvalue BECOMES^ expr0
+    ;
+
+expr0
+    :   expr (BECOMES^ expr)*
     ;
 
 expr
-    :   IF^ expr2 THEN! expr2 ELSE! expr2
-    |   expr2
+    :   expr1
+    |   IF^ expr1 THEN! expr1 ELSE! expr1
+    ;    
+
+expr1
+    :   expr2 ((GT^ | GTE^ | LT^ | LTE^ | EQ^ | NEQ^) expr2 )*
     ;
 
 expr2
-    :   expr3 ((LT^ | LTE^ | GT^ | GTE^ | EQ^ | NEQ^) expr3)*
+    :   expr3 ((PLUS^ | MINUS^) expr3 )*
     ;
 
 expr3
-    :   expr4 ((PLUS^ | MINUS^) expr4)*
-    ;
-
-expr4
-    :   operand ((MUL^ | DIV^) operand)*
-    ;
+    :   operand ((TIMES^ | DIV^) operand )*
+    ;     
 
 operand
-    :   IDENTIFIER
-    |   NUMBER
+    :   NUMBER
     |   LPAREN! expr RPAREN!
+    |   IDENTIFIER
     ;
 
 type
@@ -127,8 +137,9 @@ NUMBER
     ;
 
 
+
 COMMENT
-    :   '//' .* '\n'
+    :   '//' .* '\n' 
             { $channel=HIDDEN; }
     ;
 
@@ -143,3 +154,4 @@ fragment UPPER  :   ('A'..'Z') ;
 fragment LETTER :   LOWER | UPPER ;
 
 // EOF
+
