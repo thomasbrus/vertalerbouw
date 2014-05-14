@@ -6,3 +6,7 @@ minimumAge := 21;
 myAge := 22;
 
 print(if (myAge < minimumAge) then 0 else 1);
+
+var otherAge: integer;
+
+otherAge := 18;
