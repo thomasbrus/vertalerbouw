@@ -7,3 +7,5 @@ sample-*.tex
 *.dot
 /vb/week3/calc/Calc*.java
 !/vb/week3/calc/Calc.java
+/vb/week4/decluse/Decluse*.java
+!/vb/week4/decluse/Decluse.java
