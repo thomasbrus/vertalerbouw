@@ -6,3 +6,4 @@ sample-*.tex
 *.tokens
 *.dot
 /vb/week3/calc/Calc*.java
+!/vb/week3/calc/Calc.java
