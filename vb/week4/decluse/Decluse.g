@@ -1,17 +1,19 @@
 grammar Decluse;
 
 options {
-  k=1; // LL(1) - do not use LL(*)
-  language=Java; // target language is Java (= default)
-  output=AST; // build an AST
+  k = 1; // LL(1) - do not use LL(*)
+  language = Java; // target language is Java (= default)
+  output = AST; // build an AST
 }
 
 tokens {
-  LPAREN = '(' ;
-  RPAREN = ')' ;
+  LPAREN = '(';
+  RPAREN = ')';
 
-  D = 'D:' ;
-  U = 'U:' ;
+  DECL = 'D:';
+  USE = 'U:';
+
+  SERIE = 'serie';
 }
 
 @lexer::header {
@@ -24,27 +26,22 @@ tokens {
 
 // Parser rules
 
-program
-  : LPAREN! serie RPAREN!
-  ;
+decluse: LPAREN! serie RPAREN!;
 
-serie
-  : unit*
-  ;
+serie: unit* -> ^(SERIE unit*);
 
-unit: decl
-   | use
-   | LPAREN! serie RPAREN!
-   ;
+unit: decl | use | LPAREN! serie RPAREN!;
 
-decl: D id;
+decl: DECL^ IDENTIFIER;
 
-use : U id;
+use : USE^ IDENTIFIER;
 
-id : (LETTER)+;
+// Lexer rules
+
+IDENTIFIER: LETTER+;
 
 WS : (' ' | '\t' | '\f' | '\r' | '\n')+ { $channel=HIDDEN; };
 
-fragment LOWER : ('a'..'z') ;
-fragment UPPER : ('A'..'Z') ;
-fragment LETTER : LOWER | UPPER ;
+fragment LOWER: ('a'..'z');
+fragment UPPER: ('A'..'Z');
+fragment LETTER: LOWER | UPPER;
