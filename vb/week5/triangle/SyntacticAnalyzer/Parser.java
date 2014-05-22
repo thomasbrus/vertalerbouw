@@ -262,6 +262,19 @@ public class Parser {
       }
       break;
 
+    case Token.CASE:
+      {
+        acceptIt();
+        Expression eAST = parseExpression();
+        accept(Token.OF);
+        CaseBranch cbAST = parseCaseBranch();
+        accept(Token.ELSE);
+        Command cAST = parseCommand();
+        finish(commandPos);
+        commandAST = new CaseCommand(eAST, cbAST, cAST, commandPos);
+      }
+      break;
+
     case Token.WHILE:
       {
         acceptIt();
@@ -908,4 +921,35 @@ public class Parser {
     }
     return fieldAST;
   }
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// CASE-BRANCH
+//
+///////////////////////////////////////////////////////////////////////////////
+
+  CaseBranch parseCaseBranch() throws SyntaxError {
+    CaseBranch caseBranchAST = null; // in case there's a syntactic error
+
+    SourcePosition fieldPos = new SourcePosition();
+
+    start(fieldPos);
+    IntegerLiteral ilAST = parseIntegerLiteral();
+    accept(Token.COLON);
+    Command cAST = parseCommand();
+    accept(Token.SEMICOLON);
+
+    if (currentToken.kind == Token.INTLITERAL) {
+      acceptIt();
+      CaseBranch cbAST = parseCaseBranch();
+      finish(fieldPos);
+      caseBranchAST = new MultipleCaseBranch(ilAST, cAST, cbAST, fieldPos);
+    } else {
+      finish(fieldPos);
+      caseBranchAST = new SingleCaseBranch(iAST, cAST, fieldPos);
+    }
+
+    return caseBranchAST;
+  }
+
 }

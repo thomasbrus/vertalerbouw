@@ -26,6 +26,12 @@ public interface Visitor {
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
   public abstract Object visitRepeatCommand(RepeatCommand ast, Object o);
 
+  // Case commands
+  public abstract Object visitCaseCommand(CaseCommand ast, Object o);
+  public abstract Object visitCaseBranch(CaseBranch ast, Object o);
+  public abstract Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object o);
+  public abstract Object visitSingleCaseBranch(SingleCaseBranch ast, Object o);
+
   // Expressions
   public abstract Object visitArrayExpression(ArrayExpression ast, Object o);
   public abstract Object visitBinaryExpression(BinaryExpression ast, Object o);
