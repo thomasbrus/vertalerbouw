@@ -37,7 +37,6 @@ public final class Checker implements Visitor {
     return null;
   }
 
-
   public Object visitCallCommand(CallCommand ast, Object o) {
 
     Declaration binding = (Declaration) ast.I.visit(this, null);
@@ -94,6 +93,22 @@ public final class Checker implements Visitor {
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
     return null;
+  }
+
+  public Object visitCaseCommand(CaseCommand ast, Object o) {
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    if (! eType.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E.position);
+    ast.C.visit(this, null);
+    return null;
+  }
+
+  public Object visitSingleCaseBranch(SingleCaseBranch ast, Object o) {
+    return ast;
+  }
+
+  public Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object o) {
+    return ast;
   }
 
   // Expressions
@@ -575,19 +590,6 @@ public final class Checker implements Visitor {
 
   public Object visitSingleFieldTypeDenoter(SingleFieldTypeDenoter ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
-    return ast;
-  }
-
-  // Case command
-  public Object visitCaseCommand(CaseCommand ast, Object o) {
-    return ast;
-  }
-
-  public Object visitSingleCaseBranch(SingleCaseBranch ast, Object o) {
-    return ast;
-  }
-
-  public Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object o) {
     return ast;
   }
 
