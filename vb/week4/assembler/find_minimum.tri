@@ -1,0 +1,25 @@
+let
+  type IntegerList ~ array 4 of Integer;
+  var numbers: IntegerList;
+
+  func min(l: IntegerList, i: Integer) : Integer ~
+    
+
+in begin
+  i := 0;
+  numbers := [4, 2, 8, 3];
+
+
+
+  while i < 4 do begin
+    if (i = 0) then
+      lowestNumber := numbers[0]
+    else
+      if numbers[i] < lowestNumber then lowestNumber := numbers[i] else;
+
+    i := i + 1
+  end;
+
+  putint(lowestNumber)
+
+end
