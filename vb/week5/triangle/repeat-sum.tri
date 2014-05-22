@@ -2,7 +2,7 @@
 ! Testing repeat/until-statement.
 ! Compute the sum(1+...+n) for an integer n.
 
-let 
+let
     var n: Integer;
     var i: Integer;
     var sum: Integer
@@ -10,7 +10,7 @@ in begin
     getint(var n);
     i   := 0;
     sum := 0;
-    repeat 
+    repeat
         begin
             i   := i+1;
             sum := sum+i;
