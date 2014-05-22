@@ -280,7 +280,7 @@ public class Parser {
         accept(Token.UNTIL);
         Expression eAST = parseExpression();
         finish(commandPos);
-        commandAST = new RepeatUntilCommand(cAST, eAST, commandPos);
+        commandAST = new RepeatCommand(cAST, eAST, commandPos);
       }
       break;
 

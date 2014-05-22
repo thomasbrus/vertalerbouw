@@ -61,8 +61,8 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("WhileCom.", ast.E, ast.C);
   }
 
-  public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object obj) {
-    return layoutBinary("RepeatUntilCom.", ast.C, ast.E);
+  public Object visitRepeatCommand(RepeatCommand ast, Object obj) {
+    return layoutBinary("RepeatCom.", ast.C, ast.E);
   }
 
   // Expressions

@@ -88,7 +88,7 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) {
+  public Object visitRepeatCommand(RepeatCommand ast, Object o) {
     ast.C.visit(this, null);
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))

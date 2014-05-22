@@ -92,7 +92,7 @@ public final class Encoder implements Visitor {
     return null;
   }
 
-  public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) {
+  public Object visitRepeatCommand(RepeatCommand ast, Object o) {
     Frame frame = (Frame) o;
     int loopAddr;
 
