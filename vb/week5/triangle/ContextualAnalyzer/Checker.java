@@ -578,6 +578,19 @@ public final class Checker implements Visitor {
     return ast;
   }
 
+  // Case command
+  public Object visitCaseCommand(CaseCommand ast, Object o) {
+    return ast;
+  }
+
+  public Object visitSingleCaseBranch(SingleCaseBranch ast, Object o) {
+    return ast;
+  }
+
+  public Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object o) {
+    return ast;
+  }
+
   // Literals, Identifiers and Operators
   public Object visitCharacterLiteral(CharacterLiteral CL, Object o) {
     return StdEnvironment.charType;

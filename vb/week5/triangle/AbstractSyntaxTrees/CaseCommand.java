@@ -8,7 +8,7 @@ public class CaseCommand extends Command {
     super (thePosition);
     E = eAST;
     CB = cbAST;
-    C = aAST;
+    C = cAST;
   }
 
   public Object visit(Visitor v, Object o) {
@@ -17,5 +17,5 @@ public class CaseCommand extends Command {
 
   public Expression E;
   public CaseBranch CB;
-  public CaseBranch C;
+  public Command C;
 }

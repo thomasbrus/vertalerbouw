@@ -269,7 +269,8 @@ public class Parser {
         accept(Token.OF);
         CaseBranch cbAST = parseCaseBranch();
         accept(Token.ELSE);
-        Command cAST = parseCommand();
+        accept(Token.COLON);
+        Command cAST = parseSingleCommand();
         finish(commandPos);
         commandAST = new CaseCommand(eAST, cbAST, cAST, commandPos);
       }
@@ -936,17 +937,16 @@ public class Parser {
     start(fieldPos);
     IntegerLiteral ilAST = parseIntegerLiteral();
     accept(Token.COLON);
-    Command cAST = parseCommand();
+    Command cAST = parseSingleCommand();
     accept(Token.SEMICOLON);
 
     if (currentToken.kind == Token.INTLITERAL) {
-      acceptIt();
       CaseBranch cbAST = parseCaseBranch();
       finish(fieldPos);
       caseBranchAST = new MultipleCaseBranch(ilAST, cAST, cbAST, fieldPos);
     } else {
       finish(fieldPos);
-      caseBranchAST = new SingleCaseBranch(iAST, cAST, fieldPos);
+      caseBranchAST = new SingleCaseBranch(ilAST, cAST, fieldPos);
     }
 
     return caseBranchAST;

@@ -554,6 +554,33 @@ public final class Encoder implements Visitor {
     return new Integer(fieldSize);
   }
 
+  // Case command
+  public Object visitCaseCommand(CaseCommand ast, Object o) {
+    return null;
+  }
+
+  public Object visitSingleCaseBranch(SingleCaseBranch ast, Object o) {
+    // Frame frame = (Frame) o;
+    // Integer valSize;
+    // int jumpifAddr, jumpAddr;
+    //
+    // ast.type.visit(this, null);
+    // ast.E1.visit(this, frame);
+    // jumpifAddr = nextInstrAddr;
+    // emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, 0);
+    // valSize = (Integer) ast.E2.visit(this, frame);
+    // jumpAddr = nextInstrAddr;
+    // emit(Machine.JUMPop, 0, Machine.CBr, 0);
+    // patch(jumpifAddr, nextInstrAddr);
+    // valSize = (Integer) ast.E3.visit(this, frame);
+    // patch(jumpAddr, nextInstrAddr);
+    return null;
+  }
+
+  public Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object o) {
+    return null;
+  }
+
 
   // Literals, Identifiers and Operators
   public Object visitCharacterLiteral(CharacterLiteral ast, Object o) {

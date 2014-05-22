@@ -28,7 +28,6 @@ public interface Visitor {
 
   // Case commands
   public abstract Object visitCaseCommand(CaseCommand ast, Object o);
-  public abstract Object visitCaseBranch(CaseBranch ast, Object o);
   public abstract Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object o);
   public abstract Object visitSingleCaseBranch(SingleCaseBranch ast, Object o);
 

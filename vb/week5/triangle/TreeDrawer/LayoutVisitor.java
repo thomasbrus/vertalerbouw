@@ -269,6 +269,18 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("Sing.F.TypeD.", ast.I, ast.T);
   }
 
+  // Case command
+  public Object visitCaseCommand(CaseCommand ast, Object obj) {
+    return layoutTernary("CaseC.", ast.E, ast.CB, ast.C);
+  }
+
+  public Object visitSingleCaseBranch(SingleCaseBranch ast, Object obj) {
+    return layoutBinary("Sing.CaseB.", ast.IL, ast.C);
+  }
+
+  public Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object obj) {
+    return layoutTernary("Mult.CaseB.", ast.IL, ast.C, ast.CB);
+  }
 
   // Literals, Identifiers and Operators
   public Object visitCharacterLiteral(CharacterLiteral ast, Object obj) {
