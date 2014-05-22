@@ -3,17 +3,12 @@ package vb.week5.triangle.AbstractSyntaxTrees;
 import vb.week5.triangle.SyntacticAnalyzer.SourcePosition;
 
 public class MultipleCaseBranch extends CaseBranch {
+  public CaseBranch CB;
 
   public MultipleCaseBranch(IntegerLiteral ilAST, Command cAST, CaseBranch cbAST,
                           SourcePosition thePosition) {
-    super (thePosition);
-    IL = ilAST;
-    C = cAST;
+    super (ilAST, cAST, thePosition);
     CB = cbAST;
-  }
-
-  public Object visit(Visitor v, Object o) {
-    return v.visitMultipleCaseBranch(this, o);
   }
 
   public boolean equals(Object obj) {
@@ -25,8 +20,4 @@ public class MultipleCaseBranch extends CaseBranch {
     } else
       return false;
   }
-
-  public IntegerLiteral IL;
-  public Command C;
-  public CaseBranch CB;
 }

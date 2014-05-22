@@ -26,4 +26,11 @@ public class IntegerLiteral extends Terminal {
     return v.visitIntegerLiteral(this, o);
   }
 
+  public boolean equals(Object obj) {
+    if (obj != null && obj instanceof IntegerLiteral) {
+      IntegerLiteral il = (IntegerLiteral) obj;
+      return this.spelling.equals(il.spelling);
+    } else
+      return false;
+  }
 }

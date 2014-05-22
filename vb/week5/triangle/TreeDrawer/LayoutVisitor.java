@@ -274,12 +274,18 @@ public class LayoutVisitor implements Visitor {
     return layoutTernary("CaseC.", ast.E, ast.CB, ast.C);
   }
 
-  public Object visitSingleCaseBranch(SingleCaseBranch ast, Object obj) {
-    return layoutBinary("Sing.CaseB.", ast.IL, ast.C);
-  }
+  public Object visitCaseBranch(CaseBranch ast, Object obj) {
+    DrawingTree layout = null;
 
-  public Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object obj) {
-    return layoutTernary("Mult.CaseB.", ast.IL, ast.C, ast.CB);
+    if (ast instanceof SingleCaseBranch) {
+      SingleCaseBranch scb = (SingleCaseBranch) ast;
+      layout = layoutBinary("Sing.CaseB.", scb.IL, scb.C);
+    } else if (ast instanceof MultipleCaseBranch) {
+      MultipleCaseBranch mcb = (MultipleCaseBranch) ast;
+      layout = layoutTernary("Mult.CaseB.", mcb.IL, mcb.C, mcb.CB);
+    }
+
+    return layout;
   }
 
   // Literals, Identifiers and Operators

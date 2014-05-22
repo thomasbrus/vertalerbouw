@@ -14,6 +14,9 @@
 
 package vb.week5.triangle.ContextualAnalyzer;
 
+import java.util.Set;
+import java.util.HashSet;
+
 import vb.week5.triangle.AbstractSyntaxTrees.*;
 import vb.week5.triangle.AbstractSyntaxTrees.Visitor;
 import vb.week5.triangle.SyntacticAnalyzer.SourcePosition;
@@ -99,16 +102,29 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.integerType))
       reporter.reportError("Integer expression expected here", "", ast.E.position);
+    ast.CB.visit(this, new HashSet<String>());
     ast.C.visit(this, null);
     return null;
   }
 
-  public Object visitSingleCaseBranch(SingleCaseBranch ast, Object o) {
-    return ast;
-  }
+  public Object visitCaseBranch(CaseBranch ast, Object o) {
+    Set<String> integerLiterals = (Set<String>) o;
 
-  public Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object o) {
-    return ast;
+    if (integerLiterals.contains(ast.IL.spelling)) {
+      reporter.reportError("Integer literal % already used", ast.IL.spelling, ast.IL.position);
+    }
+
+    integerLiterals.add(ast.IL.spelling);
+
+    ast.IL.visit(this, null);
+    ast.C.visit(this, null);
+
+    if (ast instanceof MultipleCaseBranch) {
+      MultipleCaseBranch mcb = (MultipleCaseBranch) ast;
+      mcb.CB.visit(this, integerLiterals);
+    }
+
+    return null;
   }
 
   // Expressions

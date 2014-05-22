@@ -122,6 +122,6 @@ public class Compiler {
         }
 
         String sourceName = args[0];
-        compiledOK = compileProgram(sourceName, objectName, true, false);
+        compiledOK = compileProgram(sourceName, objectName, false, false);
     }
 }

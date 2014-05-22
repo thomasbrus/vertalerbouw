@@ -6,13 +6,7 @@ public class SingleCaseBranch extends CaseBranch {
 
   public SingleCaseBranch(IntegerLiteral ilAST, Command cAST,
                           SourcePosition thePosition) {
-    super (thePosition);
-    IL = ilAST;
-    C = cAST;
-  }
-
-  public Object visit(Visitor v, Object o) {
-    return v.visitSingleCaseBranch(this, o);
+    super(ilAST, cAST, thePosition);
   }
 
   public boolean equals(Object obj) {
@@ -23,7 +17,4 @@ public class SingleCaseBranch extends CaseBranch {
     } else
       return false;
   }
-
-  public IntegerLiteral IL;
-  public Command C;
 }
