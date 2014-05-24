@@ -15,6 +15,4 @@ public abstract class CaseBranch extends AST {
   public Object visit(Visitor v, Object o) {
     return v.visitCaseBranch(this, o);
   }
-
-  public abstract boolean equals(Object obj);
 }
