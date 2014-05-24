@@ -271,7 +271,7 @@ public class LayoutVisitor implements Visitor {
 
   // Case command
   public Object visitCaseCommand(CaseCommand ast, Object obj) {
-    return layoutTernary("CaseC.", ast.E, ast.CB, ast.C);
+    return layoutBinary("CaseC.", ast.E, ast.CB);
   }
 
   public Object visitCaseBranch(CaseBranch ast, Object obj) {
@@ -279,7 +279,7 @@ public class LayoutVisitor implements Visitor {
 
     if (ast instanceof SingleCaseBranch) {
       SingleCaseBranch scb = (SingleCaseBranch) ast;
-      layout = layoutBinary("Sing.CaseB.", scb.IL, scb.C);
+      layout = layoutTernary("Sing.CaseB.", scb.IL, scb.C, scb.CE);
     } else if (ast instanceof MultipleCaseBranch) {
       MultipleCaseBranch mcb = (MultipleCaseBranch) ast;
       layout = layoutTernary("Mult.CaseB.", mcb.IL, mcb.C, mcb.CB);

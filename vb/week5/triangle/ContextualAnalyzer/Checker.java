@@ -100,10 +100,12 @@ public final class Checker implements Visitor {
 
   public Object visitCaseCommand(CaseCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+
     if (! eType.equals(StdEnvironment.integerType))
       reporter.reportError("Integer expression expected here", "", ast.E.position);
+
     ast.CB.visit(this, new HashSet<String>());
-    ast.C.visit(this, null);
+
     return null;
   }
 
@@ -114,12 +116,16 @@ public final class Checker implements Visitor {
       reporter.reportError("Integer literal % already used", ast.IL.spelling, ast.IL.position);
     }
 
+    // Add the integer literal to the set of encountered ints
     integerLiterals.add(ast.IL.spelling);
 
     ast.IL.visit(this, null);
     ast.C.visit(this, null);
 
-    if (ast instanceof MultipleCaseBranch) {
+    if (ast instanceof SingleCaseBranch) {
+      SingleCaseBranch scb = (SingleCaseBranch) ast;
+      scb.CE.visit(this, null);
+    } else if (ast instanceof MultipleCaseBranch) {
       MultipleCaseBranch mcb = (MultipleCaseBranch) ast;
       mcb.CB.visit(this, integerLiterals);
     }

@@ -268,11 +268,8 @@ public class Parser {
         Expression eAST = parseExpression();
         accept(Token.OF);
         CaseBranch cbAST = parseCaseBranch();
-        accept(Token.ELSE);
-        accept(Token.COLON);
-        Command cAST = parseSingleCommand();
         finish(commandPos);
-        commandAST = new CaseCommand(eAST, cbAST, cAST, commandPos);
+        commandAST = new CaseCommand(eAST, cbAST, commandPos);
       }
       break;
 
@@ -930,8 +927,7 @@ public class Parser {
 ///////////////////////////////////////////////////////////////////////////////
 
   CaseBranch parseCaseBranch() throws SyntaxError {
-    CaseBranch caseBranchAST = null; // in case there's a syntactic error
-
+    CaseBranch caseBranchAST = null;
     SourcePosition fieldPos = new SourcePosition();
 
     start(fieldPos);
@@ -945,8 +941,12 @@ public class Parser {
       finish(fieldPos);
       caseBranchAST = new MultipleCaseBranch(ilAST, cAST, cbAST, fieldPos);
     } else {
+      accept(Token.ELSE);
+      accept(Token.COLON);
+      Command caAST = parseSingleCommand();
+
       finish(fieldPos);
-      caseBranchAST = new SingleCaseBranch(ilAST, cAST, fieldPos);
+      caseBranchAST = new SingleCaseBranch(ilAST, cAST, caAST, fieldPos);
     }
 
     return caseBranchAST;

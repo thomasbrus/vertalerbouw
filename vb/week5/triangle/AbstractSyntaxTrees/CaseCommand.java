@@ -4,11 +4,10 @@ import vb.week5.triangle.SyntacticAnalyzer.SourcePosition;
 
 public class CaseCommand extends Command {
 
-  public CaseCommand(Expression eAST, CaseBranch cbAST, Command cAST, SourcePosition thePosition) {
+  public CaseCommand(Expression eAST, CaseBranch cbAST, SourcePosition thePosition) {
     super (thePosition);
     E = eAST;
     CB = cbAST;
-    C = cAST;
   }
 
   public Object visit(Visitor v, Object o) {
@@ -17,5 +16,4 @@ public class CaseCommand extends Command {
 
   public Expression E;
   public CaseBranch CB;
-  public Command C;
 }
