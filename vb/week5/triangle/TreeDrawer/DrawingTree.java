@@ -24,7 +24,7 @@ public class DrawingTree {
   String  caption;
   int     width, height;
   Point   pos, offset;
-  Polygon contour; // [2003.03.11 ruys] was: "Polygon contour"
+  vb.week5.triangle.TreeDrawer.Polygon contour; // [2003.03.11 ruys] was: "Polygon contour"
   DrawingTree parent;
   DrawingTree[] children;
 
@@ -36,7 +36,7 @@ public class DrawingTree {
     this.children = null;
     this.pos      = new Point(0, 0);
     this.offset   = new Point(0, 0);
-    this.contour  = new Polygon(); // [2003.03.11 ruys] was: "= new Polygon();"
+    this.contour  = new vb.week5.triangle.TreeDrawer.Polygon(); // [2003.03.11 ruys] was: "= new Polygon();"
   }
 
   public void setChildren(DrawingTree[] children) {

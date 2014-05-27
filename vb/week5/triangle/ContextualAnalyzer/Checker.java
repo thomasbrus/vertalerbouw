@@ -14,11 +14,10 @@
 
 package vb.week5.triangle.ContextualAnalyzer;
 
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 import vb.week5.triangle.AbstractSyntaxTrees.*;
-import vb.week5.triangle.AbstractSyntaxTrees.Visitor;
 import vb.week5.triangle.SyntacticAnalyzer.SourcePosition;
 import vb.week5.triangle.Compiler;
 import vb.week5.triangle.ErrorReporter;
@@ -39,6 +38,7 @@ public final class Checker implements Visitor {
       reporter.reportError ("assignment incompatibilty", "", ast.position);
     return null;
   }
+
 
   public Object visitCallCommand(CallCommand ast, Object o) {
 
@@ -67,7 +67,53 @@ public final class Checker implements Visitor {
     ast.C2.visit(this, null);
     return null;
   }
+  
+  public Object visitCaseCommand(CaseCommand ast, Object o) {
+	    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+	    if (! eType.equals(StdEnvironment.integerType))
+	      reporter.reportError("Integer expression expected here", "", ast.E.position);
+	    
+	    Set<Integer> declaredILs = new HashSet<Integer>();	    
+	    ast.E.visit(this, null);
+	    ast.CB.visit(this, declaredILs);
+	    ast.C.visit(this, null);	    
+	    return null;
+	  }
+  
+  public Object visitCaseBranch(CaseBranch ast, Object o){
+	  if(ast instanceof MultipleCaseBranch){
+		  visitMultipleCaseBranch((MultipleCaseBranch) ast, o);		  
+	  }
+	  if(ast instanceof SingleCaseBranch){
+		  visitSingleCaseBranch((SingleCaseBranch) ast, o);		  
+	  }	  
+	  return null;
+  }
+  
+  public Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object o){
+	  Set<Integer> declaredILs = (Set<Integer>)o;
+	  int val = Integer.valueOf(ast.IL.spelling).intValue();	 
+	  if(declaredILs.contains(val)){ reporter.reportError("Integer literal already declared (integer literal "+val+")", "", ast.IL.position); }
+	  declaredILs.add(val);
+	  
+	  ast.C.visit(this, null);
+	  ast.IL.visit(this, null);
+	  ast.CB.visit(this, declaredILs);	  	  
+	  
+	  return null;
+  }
 
+  public Object visitSingleCaseBranch(SingleCaseBranch ast, Object o){
+	  Set<Integer> declaredILs = (Set<Integer>)o;
+	  int val = Integer.valueOf(ast.IL.spelling).intValue();	 
+	  if(declaredILs.contains(val)){ reporter.reportError("Integer literal already declared (integer literal "+val+")", "", ast.IL.position); }
+	  
+	  ast.C.visit(this, null);
+	  ast.IL.visit(this,null);	  
+	  
+	  return null;
+  }
+  
   public Object visitLetCommand(LetCommand ast, Object o) {
     idTable.openScope();
     ast.D.visit(this, null);
@@ -89,50 +135,14 @@ public final class Checker implements Visitor {
     ast.C.visit(this, null);
     return null;
   }
-
-  public Object visitRepeatCommand(RepeatCommand ast, Object o) {
+  
+  public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o) {
+    ast.C.visit(this, null);
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
-    ast.C.visit(this, null);
     return null;
   }
-
-  public Object visitCaseCommand(CaseCommand ast, Object o) {
-    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-
-    if (! eType.equals(StdEnvironment.integerType))
-      reporter.reportError("Integer expression expected here", "", ast.E.position);
-
-    ast.CB.visit(this, new HashSet<String>());
-
-    return null;
-  }
-
-  public Object visitCaseBranch(CaseBranch ast, Object o) {
-    Set<String> integerLiterals = (Set<String>) o;
-
-    if (integerLiterals.contains(ast.IL.spelling)) {
-      reporter.reportError("Integer literal % already used", ast.IL.spelling, ast.IL.position);
-    }
-
-    // Add the integer literal to the set of encountered ints
-    integerLiterals.add(ast.IL.spelling);
-
-    ast.IL.visit(this, null);
-    ast.C.visit(this, null);
-
-    if (ast instanceof SingleCaseBranch) {
-      SingleCaseBranch scb = (SingleCaseBranch) ast;
-      scb.CE.visit(this, null);
-    } else if (ast instanceof MultipleCaseBranch) {
-      MultipleCaseBranch mcb = (MultipleCaseBranch) ast;
-      mcb.CB.visit(this, integerLiterals);
-    }
-
-    return null;
-  }
-
   // Expressions
 
   // Returns the TypeDenoter denoting the type of the expression. Does

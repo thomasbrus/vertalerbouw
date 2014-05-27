@@ -33,7 +33,7 @@ public class LayoutVisitor implements Visitor {
   }
 
   // Commands
-  public Object visitAssignCommand(AssignCommand ast, Object obj) {
+  public Object visitAssignCommand(AssignCommand ast, Object obj) { 
     return layoutBinary("AssignCom.", ast.V, ast.E);
   }
 
@@ -48,6 +48,21 @@ public class LayoutVisitor implements Visitor {
   public Object visitIfCommand(IfCommand ast, Object obj) {
     return layoutTernary("IfCom.", ast.E, ast.C1, ast.C2);
   }
+  
+  public Object visitCaseCommand(CaseCommand ast, Object obj) {
+	    return layoutTernary("CaseCom.", ast.E, ast.CB, ast.C);
+ }
+  
+  public Object visitCaseBranch(CaseBranch ast, Object obj) {
+	    return layoutNullary("CaseBranch.");
+}
+  public Object visitMultipleCaseBranch(MultipleCaseBranch ast, Object obj) {
+	    return layoutTernary("Mult.CB", ast.IL, ast.C, ast.CB);
+}
+  public Object visitSingleCaseBranch(SingleCaseBranch ast, Object obj) {
+	    return layoutBinary("Single.CB.", ast.IL, ast.C);
+}
+  
 
   public Object visitLetCommand(LetCommand ast, Object obj) {
     return layoutBinary("LetCom.", ast.D, ast.C);
@@ -60,9 +75,9 @@ public class LayoutVisitor implements Visitor {
   public Object visitWhileCommand(WhileCommand ast, Object obj) {
     return layoutBinary("WhileCom.", ast.E, ast.C);
   }
-
-  public Object visitRepeatCommand(RepeatCommand ast, Object obj) {
-    return layoutBinary("RepeatCom.", ast.C, ast.E);
+  
+  public Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object obj) {
+    return layoutBinary("RepeatUntilCom.", ast.C, ast.E);
   }
 
   // Expressions
@@ -269,24 +284,6 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("Sing.F.TypeD.", ast.I, ast.T);
   }
 
-  // Case command
-  public Object visitCaseCommand(CaseCommand ast, Object obj) {
-    return layoutBinary("CaseC.", ast.E, ast.CB);
-  }
-
-  public Object visitCaseBranch(CaseBranch ast, Object obj) {
-    DrawingTree layout = null;
-
-    if (ast instanceof SingleCaseBranch) {
-      SingleCaseBranch scb = (SingleCaseBranch) ast;
-      layout = layoutTernary("Sing.CaseB.", scb.IL, scb.C, scb.CE);
-    } else if (ast instanceof MultipleCaseBranch) {
-      MultipleCaseBranch mcb = (MultipleCaseBranch) ast;
-      layout = layoutTernary("Mult.CaseB.", mcb.IL, mcb.C, mcb.CB);
-    }
-
-    return layout;
-  }
 
   // Literals, Identifiers and Operators
   public Object visitCharacterLiteral(CharacterLiteral ast, Object obj) {

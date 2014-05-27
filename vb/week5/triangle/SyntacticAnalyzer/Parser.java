@@ -263,16 +263,19 @@ public class Parser {
       break;
 
     case Token.CASE:
-      {
-        acceptIt();
-        Expression eAST = parseExpression();
-        accept(Token.OF);
-        CaseBranch cbAST = parseCaseBranch();
-        finish(commandPos);
-        commandAST = new CaseCommand(eAST, cbAST, commandPos);
-      }
-      break;
-
+    {
+      acceptIt();
+      Expression eAST = parseExpression();
+      accept(Token.OF);
+      CaseBranch cbAST = parseCaseBranch();
+      accept(Token.ELSE);
+      accept(Token.COLON);
+      Command cAST = parseSingleCommand();     
+      finish(commandPos);
+      commandAST = new CaseCommand(eAST, cbAST, cAST, commandPos);
+    }
+    break;
+    
     case Token.WHILE:
       {
         acceptIt();
@@ -283,17 +286,17 @@ public class Parser {
         commandAST = new WhileCommand(eAST, cAST, commandPos);
       }
       break;
-
+      
     case Token.REPEAT:
-      {
-        acceptIt();
-        Command cAST = parseSingleCommand();
-        accept(Token.UNTIL);
-        Expression eAST = parseExpression();
-        finish(commandPos);
-        commandAST = new RepeatCommand(cAST, eAST, commandPos);
-      }
-      break;
+    {
+      acceptIt();
+      Command cAST = parseSingleCommand();
+      accept(Token.UNTIL);
+      Expression eAST = parseExpression();
+      finish(commandPos);
+      commandAST = new RepeatUntilCommand(cAST, eAST, commandPos);
+    }
+    break;      
 
     case Token.SEMICOLON:
     case Token.END:
@@ -919,37 +922,32 @@ public class Parser {
     }
     return fieldAST;
   }
-
+  
+  
+  
 ///////////////////////////////////////////////////////////////////////////////
 //
-// CASE-BRANCH
+//CASE-BRANCH
 //
-///////////////////////////////////////////////////////////////////////////////
-
+///////////////////////////////////////////////////////////////////////////////  
   CaseBranch parseCaseBranch() throws SyntaxError {
-    CaseBranch caseBranchAST = null;
-    SourcePosition fieldPos = new SourcePosition();
+	    CaseBranch casebranchAST = null; // in case there's a syntactic error
 
-    start(fieldPos);
-    IntegerLiteral ilAST = parseIntegerLiteral();
-    accept(Token.COLON);
-    Command cAST = parseSingleCommand();
-    accept(Token.SEMICOLON);
+	    SourcePosition fieldPos = new SourcePosition();
 
-    if (currentToken.kind == Token.INTLITERAL) {
-      CaseBranch cbAST = parseCaseBranch();
-      finish(fieldPos);
-      caseBranchAST = new MultipleCaseBranch(ilAST, cAST, cbAST, fieldPos);
-    } else {
-      accept(Token.ELSE);
-      accept(Token.COLON);
-      Command caAST = parseSingleCommand();
-
-      finish(fieldPos);
-      caseBranchAST = new SingleCaseBranch(ilAST, cAST, caAST, fieldPos);
-    }
-
-    return caseBranchAST;
-  }
-
+	    start(fieldPos);
+	    IntegerLiteral ilAST = parseIntegerLiteral();
+	    accept(Token.COLON);
+	    Command cAST = parseSingleCommand();
+	    accept(Token.SEMICOLON);
+	    if (currentToken.kind == Token.INTLITERAL) {
+	      CaseBranch cbAST = parseCaseBranch();
+	      finish(fieldPos);
+	      casebranchAST = new MultipleCaseBranch(ilAST, cAST, cbAST, fieldPos);
+	    } else {
+	      finish(fieldPos);
+	      casebranchAST = new SingleCaseBranch(ilAST, cAST, fieldPos);
+	    }
+	    return casebranchAST;
+	  }
 }

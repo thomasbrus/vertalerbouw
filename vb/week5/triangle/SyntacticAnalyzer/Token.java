@@ -82,17 +82,17 @@ final class Token extends Object {
     OF			= 15,
     PROC		= 16,
     RECORD		= 17,
-    REPEAT   = 18,
+    REPEAT      = 18,
     THEN		= 19,
     TYPE		= 20,
-    UNTIL    = 21,
+    UNTIL		= 21,
     VAR			= 22,
     WHILE		= 23,
 
     // punctuation...
     DOT			= 24,
     COLON		= 25,
-    SEMICOLON		= 26,
+    SEMICOLON	= 26,
     COMMA		= 27,
     BECOMES		= 28,
     IS			= 29,
@@ -147,7 +147,7 @@ final class Token extends Object {
     "{",
     "}",
     "",
-    "<error>"
+    "<error>",
   };
 
   private final static int	firstReservedWord = Token.ARRAY,
